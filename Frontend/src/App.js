@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { USER_MAIN_DATA, USER_ACTIVITY, USER_AVERAGE_SESSIONS, USER_PERFORMANCE } from './mock/dataMock.js'; // Importe les données USER_ACTIVITY depuis le fichier dataMock.js
+import Activity from './components/bartChart.js'; // Importe le composant MyBarChart que tu as créé
+import AverageSession from './components/lineChart.js';
+import RadarPerformanceChart from './components/radarChart.js';
+import KpiScore from './components/kpiScore.js';
+const App = () => {
+  const userId = 18;
 
-function App() {
+  // Filtrer les données pour l'utilisateur actuel en fonction de son userId
+  const userData = USER_MAIN_DATA.find(user => user.id === userId);
+  const userActivityData = USER_ACTIVITY.find(activity => activity.userId === userId);
+  const userAverageSessionsData = USER_AVERAGE_SESSIONS.find(session => session.userId === userId);
+  const userPerformanceData = USER_PERFORMANCE.find(performance => performance.userId === userId);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>My Application</h1>
+      
+      {/* Composant Activity avec les données USER_ACTIVITY */}
+      <Activity data={USER_ACTIVITY.find(activity => activity.userId === userId)?.sessions} />
+      
+      {/* Composant AverageSession avec les données USER_AVERAGE_SESSIONS */}
+      <AverageSession data={USER_AVERAGE_SESSIONS.find(session => session.userId === userId)?.sessions} />
+      
+      {/* Composant RadarPerformanceChart avec les données USER_PERFORMANCE */}
+      <RadarPerformanceChart data={USER_PERFORMANCE.find(performance => performance.userId === userId)?.data} />
+      
+      {/* Composant KpiScore avec une valeur de score de USER_PERFORMANCE */}
+      <KpiScore score={USER_PERFORMANCE.find(performance => performance.userId === userId)?.data[0]?.value} />
     </div>
   );
-}
+  
+};
+
 
 export default App;
