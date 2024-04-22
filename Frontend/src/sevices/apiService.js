@@ -10,6 +10,10 @@ export const getUser = (userId) => {
   return api.get(`/user/${userId}`);
 };
 
+export const getUserMainData = (userId) => {
+  return api.get(`/user/${userId}/mainData`);
+}
+
 export const getUserActivity = (userId) => {
   return api.get(`/user/${userId}/activity`);
 };

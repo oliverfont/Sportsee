@@ -4,15 +4,16 @@ import Activity from './components/bartChart.js'; // Importe le composant MyBarC
 import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
 import KpiScore from './components/kpiScore.js';
+
 const App = () => {
   const userId = 12;
 
   // Filtrer les données pour l'utilisateur actuel en fonction de son userId
   const userData = USER_MAIN_DATA.find(user => user.id === userId);
+  const userMainData = USER_MAIN_DATA.find(mainData => mainData.id === userId);
   const userActivityData = USER_ACTIVITY.find(activity => activity.userId === userId);
   const userAverageSessionsData = USER_AVERAGE_SESSIONS.find(session => session.userId === userId);
   const userPerformanceData = USER_PERFORMANCE.find(performance => performance.userId === userId);
-
 
   return (
     <div>
@@ -27,8 +28,8 @@ const App = () => {
       {/* Composant RadarPerformanceChart avec les données USER_PERFORMANCE */}
       <RadarPerformanceChart data={USER_PERFORMANCE.find(performance => performance.userId === userId)?.data} />
       
-      {/* Composant KpiScore avec une valeur de score de USER_PERFORMANCE */}
-      <KpiScore score={USER_PERFORMANCE.find(performance => performance.userId === userId)?.data[0]?.value} />
+      {/* Composant KpiScore avec une valeur de score de USER_MAIN_DATA */}
+      <KpiScore score={USER_MAIN_DATA.find(user => user.id === userId)?.score} />
     </div>
   );
   
