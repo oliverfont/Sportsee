@@ -6,7 +6,7 @@ import RadarPerformanceChart from './components/radarChart.js';
 import KpiScore from './components/kpiScore.js';
 
 const App = () => {
-  const userId = 12;
+  const userId = 18;
 
   // Filtrer les données pour l'utilisateur actuel en fonction de son userId
   const userData = USER_MAIN_DATA.find(user => user.id === userId);
