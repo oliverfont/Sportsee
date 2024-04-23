@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResponsiveContainer, RadialBarChart, RadialBar, Legend } from 'recharts';
+import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
 
 const KpiScore = ({ score }) => {
   // Assurez-vous que le score est défini
@@ -15,7 +15,8 @@ const KpiScore = ({ score }) => {
   const data = [{ name: 'Score', value: percentage }];
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <div style={{ borderRadius: '5px', background: '#FBFBFB' , width: '300px', height: '300px' }}>
+    <ResponsiveContainer width={300} height={300} >
       <RadialBarChart
         innerRadius="50%"
         outerRadius="60%"
@@ -24,10 +25,10 @@ const KpiScore = ({ score }) => {
         endAngle={-endAngle + 44}
       >
         <RadialBar background dataKey="value" fill="#8884d8" />
-        <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" align="right" />
         <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" className="kpi-score-text">{percentage}% de votre objectif</text>
       </RadialBarChart>
     </ResponsiveContainer>
+    </div>
   );
 };
 
