@@ -11,16 +11,16 @@ const Asside = () => {
         <div className='asside'>
             <ul>
                 <li>
-                    <img src={hippi} alt='hippi' />
+                    <a href='#'><img src={hippi} alt='hippi' /></a>
                 </li>
                 <li>
-                    <img src={swim} alt='swim' />
+                <a href='#'><img src={swim} alt='swim' /></a>
                 </li>
                 <li>
-                    <img src={bike} alt='bike' />
+                <a href='#'><img src={bike} alt='bike' /></a>
                 </li>
                 <li>
-                    <img src={alter} alt='alter' />
+                <a href='#'><img src={alter} alt='alter' /></a>
                 </li>
             </ul>
             <img style={{margin: '60px'}} src={copyright} alt='copyright' />

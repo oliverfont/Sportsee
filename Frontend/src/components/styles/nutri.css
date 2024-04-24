@@ -1,23 +1,25 @@
 .nutri {
-    width: 300px;
-    margin-top: 90px;
-    gap: 40px;
-    display: flex;
-    flex-direction: column;
-  }
+  width: fit-content;
+  margin-top: 60px;
+  gap: 70px;
+  display: flex;
+  flex-direction: column;
+}
 
 .nutri-item {
-    display: flex;
-    border-radius: 5px;
-    background: #FBFBFB;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.02);
-    padding: 20px;
-    align-items: center;
-    gap: 20px;
-    height: 100px;
-    width: 250px;
+  display: flex;
+  border-radius: 5px;
+  background: #FBFBFB;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.02);
+  padding: 20px;
+  align-items: center;
+  gap: 20px;
+  height: auto;
+  width: fit-content;
+}
 
-      & p {
-        margin: 0;
-      }
+@media (max-width: 768px) {
+  .nutri-item {
+    width: 100%;
+  }
 }

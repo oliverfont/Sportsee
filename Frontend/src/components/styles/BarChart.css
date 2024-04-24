@@ -1,0 +1,17 @@
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.activity-header {
+    margin: 40px 0;
+}
+
+.activity-chart {
+    width: 100%;
+}
+
+ul.recharts-default-legend {
+    margin: -85px 20px 0 0 !important;
+}

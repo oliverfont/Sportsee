@@ -19,7 +19,7 @@ const Nutri = ({ data }) => {
     <div className='nutri'>
       {dataWithIcons.map((item, index) => (
         <div className='nutri-item' key={index}>
-          <img src={item.icon} alt={item.label} style={{ width: '50px', height: '50px' }} />
+          <img src={item.icon} alt={item.label} style={{ width: '60px', height: '60px' }} />
           <div>
           <p>{item.value}</p>
           <p>{item.label}</p>

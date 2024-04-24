@@ -13,6 +13,7 @@
     background: #020203;
     height: 90px;
     width: 100%;
+    min-width: 1024px;
 }
 
 nav {

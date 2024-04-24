@@ -1,4 +1,12 @@
 .header {
     display: flex;
     flex-direction: column;
+        & h1 {
+            font-size: 48px; 
+            margin: 0 0;
+        }
+}
+
+.red {
+    color: #FF0101;
 }

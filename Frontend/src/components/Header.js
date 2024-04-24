@@ -9,7 +9,7 @@ const Header = ({ userId }) => {
 
     return (
         <div className='header'>
-            <h1>Bonjour {userInfo.firstName}</h1>
+            <h1>Bonjour <span className="red">{userInfo.firstName}</span></h1>
             <p>Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
         </div>
     );
