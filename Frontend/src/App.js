@@ -5,10 +5,13 @@ import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
 import KpiScore from './components/kpiScore.js';
 import Header from './components/Header.js';
+import Nutri from './components/Nutri.js';
+import Nav from './components/Nav.js';
+import Asside from './components/Asside.js';
 import './App.css';
 
 const App = () => {
-  const userId = 18;
+  const userId = 12;
 
   // Filtrer les données pour l'utilisateur actuel en fonction de son userId
   const userData = USER_MAIN_DATA.find(user => user.id === userId);
@@ -19,7 +22,12 @@ const App = () => {
 
   return (
     <div className='main'>
-            <Header userData={userData} userMainData={userMainData} userActivityData={userActivityData} userAverageSessionsData={userAverageSessionsData} userPerformanceData={userPerformanceData} />
+        <Nav />
+        <div className='flex'>
+        <Asside />
+        <div className='flex4'>
+        <Header userId={userId} />
+            <div className='flex3'>
           <div className='flex1'>
             <Activity data={USER_ACTIVITY.find(activity => activity.userId === userId)?.sessions} />
             <div className='flex2'>
@@ -28,6 +36,10 @@ const App = () => {
             <KpiScore score={USER_MAIN_DATA.find(user => user.id === userId)?.score} />
             </div>
           </div>
+          <Nutri data={USER_MAIN_DATA.find(user => user.id === userId)?.keyData} />
+        </div>
+        </div>
+        </div>
     </div>
   );
   

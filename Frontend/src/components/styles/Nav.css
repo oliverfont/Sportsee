@@ -1,0 +1,36 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 30px ;
+    gap: 10px;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #020203;
+    height: 90px;
+    width: 100%;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    width: 1440px;
+        & ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+}
+  
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }

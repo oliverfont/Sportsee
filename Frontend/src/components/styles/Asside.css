@@ -1,0 +1,19 @@
+.asside {
+    max-height: 1024px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    align-items: center;
+    background: #020203;
+    padding-top: 130px;
+        & ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            margin: 130px 0;
+            padding: 0;
+            gap: 30px;
+          }
+}

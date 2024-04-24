@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
-
+import './styles/BarChart.css';
 const CustomBar = (props) => {
     const { x, y, fill } = props;
 
@@ -25,11 +25,16 @@ const Activity = ({ data }) => {
     const weightDomain = [minWeight - 1, maxWeight + 0];
 
     return (
-        <div style={{ marginTop: '90px' }}> {/* Ajustez la marge supérieure ici pour déplacer la légende plus haut */}
+        <div style={{ marginTop: '60px', background: '#FBFBFB', borderRadius: '5px', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* Ajustez la marge supérieure ici pour déplacer la légende plus haut */}
             <style>
                 {`
                     div.recharts-legend-wrapper {
                         top: -40px !important;
+                    }
+
+                    recharts-default-legend {
+                        display: none;
                     }
 
                     .recharts-surface {
@@ -67,7 +72,7 @@ const Activity = ({ data }) => {
             <div>
                 <h3>Activité quotidienne</h3>
             </div>
-            <BarChart width={600} height={300} data={data}>
+            <BarChart background='#FBFBFB' width={966} height={300} data={data}>
                 <XAxis domain={[1, 7]} tickLine={false} dy={10} dx={-10} />
                 <YAxis yAxisId="right" tickLine={false} orientation="right" domain={weightDomain} axisLine={false} />
                 <YAxis yAxisId="left" hide domain={[0, 550]} />
