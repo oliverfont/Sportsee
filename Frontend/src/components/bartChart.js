@@ -18,6 +18,11 @@ const CustomBar = (props) => {
 };
 
 const Activity = ({ data }) => {
+    // Assurez-vous de vérifier si les données sont disponibles avant de les utiliser
+    if (!data) {
+        return <div>Loading...</div>;
+    }
+
     // Trouver le poids minimum et maximum dans les données
     const minWeight = Math.min(...data.map(entry => entry.kilogram));
     const maxWeight = Math.max(...data.map(entry => entry.kilogram));
@@ -33,7 +38,7 @@ const Activity = ({ data }) => {
             <div className="activity-chart">
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart background='#FBFBFB' data={data} justifyContent='center' barGap={-20}> {/* Ajustez la valeur de barGap selon vos besoins */}
-                        <XAxis domain={[1, 7]} tickLine={false} dy={10} dx={-25} />
+                        <XAxis dataKey="day" tickLine={false} dy={10} dx={-25} />
                         <YAxis yAxisId="right" tickLine={false} orientation="right" domain={weightDomain} axisLine={false} />
                         <YAxis yAxisId="left" hide domain={[0, 550]} />
                         <Tooltip verticalAlign="top" align="left" label="Titre" labelStyle={{ textAlign: 'left', fontSize: 16, fontWeight: 'bold' }} />

@@ -11,6 +11,11 @@ import {
 import './styles/LineChart.css';
 
 const AverageSession = ({ data }) => {
+  // Vérifiez si les données sont disponibles
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
   console.log('Data received:', data);
 
   const dayNames = {

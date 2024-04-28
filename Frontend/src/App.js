@@ -1,5 +1,5 @@
-import React from 'react';
-import { USER_MAIN_DATA, USER_ACTIVITY, USER_AVERAGE_SESSIONS, USER_PERFORMANCE } from './mock/dataMock.js'; // Importe les données USER_ACTIVITY depuis le fichier dataMock.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Activity from './components/bartChart.js'; // Importe le composant MyBarChart que tu as créé
 import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
@@ -11,39 +11,48 @@ import Asside from './components/Asside.js';
 import './App.css';
 
 const App = () => {
+  const [userData, setUserData] = useState(null);
   const userId = 18;
 
-  // Filtrer les données pour l'utilisateur actuel en fonction de son userId
-  const userData = USER_MAIN_DATA.find(user => user.id === userId);
-  const userMainData = USER_MAIN_DATA.find(mainData => mainData.id === userId);
-  const userActivityData = USER_ACTIVITY.find(activity => activity.userId === userId);
-  const userAverageSessionsData = USER_AVERAGE_SESSIONS.find(session => session.userId === userId);
-  const userPerformanceData = USER_PERFORMANCE.find(performance => performance.userId === userId);
+  useEffect(() => {
+    // Effectuer une requête GET pour récupérer les données de l'utilisateur à partir de votre API
+    axios.get(`http://localhost:3000/user/${userId}`)
+      .then(response => {
+        // Mettre à jour l'état avec les données reçues de l'API
+        setUserData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }, [userId]); // Exécuter cette requête à chaque fois que userId change
+
+  if (!userData) {
+    // Afficher un message de chargement tant que les données ne sont pas disponibles
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='main'>
-        <Nav />
-        <div className='flex'>
+      <Nav />
+      <div className='flex'>
         <Asside />
         <div className='flex4'>
-        <Header userId={userId} />
-            <div className='flex3'>
-          <div className='flex1'>
-            <Activity data={USER_ACTIVITY.find(activity => activity.userId === userId)?.sessions} />
-            <div className='flex2'>
-            <AverageSession data={USER_AVERAGE_SESSIONS.find(session => session.userId === userId)?.sessions} />
-            <RadarPerformanceChart data={USER_PERFORMANCE.find(performance => performance.userId === userId)?.data} />
-            <KpiScore score={USER_MAIN_DATA.find(user => user.id === userId)?.score} />
+          <Header userId={userId} />
+          <div className='flex3'>
+            <div className='flex1'>
+              <Activity data={userData.activity} />
+              <div className='flex2'>
+                <AverageSession data={userData.averageSessions} />
+                <RadarPerformanceChart data={userData.performance} />
+                <KpiScore score={userData.score} />
+              </div>
             </div>
+            <Nutri data={userData.keyData} />
           </div>
-          <Nutri data={USER_MAIN_DATA.find(user => user.id === userId)?.keyData} />
         </div>
-        </div>
-        </div>
+      </div>
     </div>
   );
-  
 };
-
 
 export default App;
