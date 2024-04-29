@@ -10,7 +10,8 @@ const Header = ({ userId }) => {
         const fetchUserData = async () => {
             try {
                 const userData = await getUserDataById(userId);
-                setUserFirstName(userData.userInfos.firstName);
+                console.log(userData);
+                setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
                 console.error('Error fetching user data:', error);
                 setUserFirstName('');

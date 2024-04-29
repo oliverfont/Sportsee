@@ -1,3 +1,3 @@
 > Les cas d’erreurs (indisponibilité de l’API) ne font pas planter le site. Dans le cas d’une indisponibilité, un message d’erreur est affiché. 
 > Quelles que soient les données envoyées (mockées ou de l’API), ces dernières complètent les charts.
-> etre capable de changer la source des données (les données mockées et les données de l’API) en changeant uniquement le service utilisant l’API et la classe de modélisation. Le code des composants ne doit pas être changé.
+> etre capable de changer la source des données (les données mockées et les données de l’API) en changeant uniquement le service utilisant l’API et la classe de modélisation. Le code des composants ne doit pas être changé. Grace a une variable qui permet de passer des données mockées et celle de l'api.
