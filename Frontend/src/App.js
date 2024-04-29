@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { getUserDataById, getUserActivityById, getUserKeyDataById } from './sevices/apiService.js';
 import Activity from './components/bartChart.js'; // Importe le composant MyBarChart que tu as créé
 import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
@@ -11,25 +11,30 @@ import Asside from './components/Asside.js';
 import './App.css';
 
 const App = () => {
-  const [userData, setUserData] = useState(null);
-  const userId = 18;
+  const [userData, setUserData] = useState({});
+  const userId = 18; // Vous pouvez spécifier l'ID de l'utilisateur ici
 
   useEffect(() => {
-    // Effectuer une requête GET pour récupérer les données de l'utilisateur à partir de votre API
-    axios.get(`http://localhost:3000/user/${userId}`)
-      .then(response => {
-        // Mettre à jour l'état avec les données reçues de l'API
-        setUserData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-  }, [userId]); // Exécuter cette requête à chaque fois que userId change
+    // Fonction pour récupérer et mettre à jour les données de l'utilisateur
+    const fetchUserData = async () => {
+      try {
+        const userDataResponse = await getUserDataById(userId);
+        const activityDataResponse = await getUserActivityById(userId);
+        const keyDataResponse = await getUserKeyDataById(userId);
 
-  if (!userData) {
-    // Afficher un message de chargement tant que les données ne sont pas disponibles
-    return <div>Loading...</div>;
-  }
+        setUserData({
+          userInfo: userDataResponse,
+          activity: activityDataResponse,
+          keyData: keyDataResponse
+        });
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    // Appeler la fonction pour récupérer les données de l'utilisateur lors du montage du composant
+    fetchUserData();
+  }, [userId]);
 
   return (
     <div className='main'>
@@ -40,14 +45,25 @@ const App = () => {
           <Header userId={userId} />
           <div className='flex3'>
             <div className='flex1'>
-              <Activity data={userData.activity} />
+              {/* Vérifiez si les données de l'utilisateur sont disponibles avant de passer les props */}
+              {userData.activity && (
+                <Activity data={userData.activity} />
+              )}
               <div className='flex2'>
-                <AverageSession data={userData.averageSessions} />
-                <RadarPerformanceChart data={userData.performance} />
-                <KpiScore score={userData.score} />
+                {userData.activity && (
+                  <AverageSession data={userData.averageSessions} />
+                )}
+                {userData.activity && (
+                  <RadarPerformanceChart data={userData.performance} />
+                )}
+                {userData.userInfo && (
+                  <KpiScore score={userData.userInfo.score} />
+                )}
               </div>
             </div>
-            <Nutri data={userData.keyData} />
+            {userData.keyData && (
+              <Nutri data={userData.keyData} />
+            )}
           </div>
         </div>
       </div>

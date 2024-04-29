@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserMainData } from '../sevices/apiService'; // Importez la fonction pour récupérer les données de l'utilisateur depuis votre service API
-import { USER_MAIN_DATA } from '../mock/dataMock'; // Importez les données du mock
+import { getUserDataById } from '../sevices/apiService.js';
 import './styles/Header.css';
 
 const Header = ({ userId }) => {
@@ -10,14 +9,11 @@ const Header = ({ userId }) => {
         // Fonction pour récupérer les données de l'utilisateur depuis l'API
         const fetchUserData = async () => {
             try {
-                const response = await getUserMainData(userId);
-                const userData = response.data; // Données de l'utilisateur
-                setUserFirstName(userData.firstName); // Mettre à jour le prénom de l'utilisateur
+                const userData = await getUserDataById(userId);
+                setUserFirstName(userData.userInfos.firstName);
             } catch (error) {
                 console.error('Error fetching user data:', error);
-                // En cas d'erreur, utiliser les données du mock
-                const userDataFromMock = USER_MAIN_DATA.find(user => user.id === userId);
-                setUserFirstName(userDataFromMock?.userInfos?.firstName || ''); // Mettre à jour le prénom de l'utilisateur depuis le mock
+                setUserFirstName('');
             }
         };
 
