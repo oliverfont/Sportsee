@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserDataById } from '../sevices/apiService.js';
+import { getUserMainData } from '../sevices/apiService.js'; // Correction du chemin d'importation et de la fonction à utiliser
 import './styles/Header.css';
 
 const Header = ({ userId }) => {
@@ -9,8 +9,7 @@ const Header = ({ userId }) => {
         // Fonction pour récupérer les données de l'utilisateur depuis l'API
         const fetchUserData = async () => {
             try {
-                const userData = await getUserDataById(userId);
-                console.log(userData);
+                const userData = await getUserMainData(userId); // Utilisation de getUserMainData
                 setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
                 console.error('Error fetching user data:', error);

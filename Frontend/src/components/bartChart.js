@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getUserActivity } from '../sevices/apiService.js'; // Importation de la fonction getUserActivity depuis le service API
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
 import './styles/BarChart.css';
 
@@ -12,22 +13,39 @@ const CustomBar = (props) => {
             width={12}
             height={props.height}
             fill={fill}
-            radius={[10, 10, 0, 0]} // Arrondir les coins supérieurs gauche et droit
+            radius={[10, 10, 0, 0]}
         />
     );
 };
 
-const Activity = ({ data }) => {
-    // Assurez-vous de vérifier si les données sont disponibles avant de les utiliser
-    if (!data) {
+const Activity = ({ userId }) => {
+    const [activityData, setActivityData] = useState(null);
+
+    useEffect(() => {
+        // Fonction pour récupérer les données d'activité depuis l'API
+        const fetchActivityData = async () => {
+            try {
+                // Appel à getUserActivity pour récupérer les données d'activité de l'utilisateur
+                const activity = await getUserActivity(userId);
+                setActivityData(activity);
+                console.log(activity)
+            } catch (error) {
+                console.error('Error fetching activity data:', error);
+                setActivityData(null);
+            }
+        };
+
+        // Appel de la fonction pour récupérer les données d'activité lors du montage du composant
+        fetchActivityData();
+    }, [userId]); // userId est une dépendance de l'effet, donc il est inclus dans le tableau de dépendances
+
+    if (!activityData || !activityData.length) {
         return <div>Loading...</div>;
     }
 
-    // Trouver le poids minimum et maximum dans les données
-    const minWeight = Math.min(...data.map(entry => entry.kilogram));
-    const maxWeight = Math.max(...data.map(entry => entry.kilogram));
+    const minWeight = Math.min(...activityData.map(entry => entry.kilogram));
+    const maxWeight = Math.max(...activityData.map(entry => entry.kilogram));
 
-    // Calculer le domaine pour l'axe Y des kilogrammes
     const weightDomain = [minWeight - 1, maxWeight + 0];
 
     return (
@@ -37,7 +55,7 @@ const Activity = ({ data }) => {
             </div>
             <div className="activity-chart">
                 <ResponsiveContainer width="100%" height={300}>
-                    <BarChart background='#FBFBFB' data={data} justifyContent='center' barGap={-20}> {/* Ajustez la valeur de barGap selon vos besoins */}
+                    <BarChart background='#FBFBFB' data={activityData}>
                         <XAxis dataKey="day" tickLine={false} dy={10} dx={-25} />
                         <YAxis yAxisId="right" tickLine={false} orientation="right" domain={weightDomain} axisLine={false} />
                         <YAxis yAxisId="left" hide domain={[0, 550]} />

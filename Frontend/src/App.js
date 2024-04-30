@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { getUserDataById, getUserActivityById, getUserKeyDataById } from './sevices/apiService.js';
-import Activity from './components/bartChart.js'; // Importe le composant MyBarChart que tu as créé
-import AverageSession from './components/lineChart.js';
-import RadarPerformanceChart from './components/radarChart.js';
-import KpiScore from './components/kpiScore.js';
-import Header from './components/Header.js';
-import Nutri from './components/Nutri.js';
-import Nav from './components/Nav.js';
-import Asside from './components/Asside.js';
+import { getUserMainData, getUserActivity, getUserAverageSessions, getUserPerformance } from './sevices/apiService.js';
+import Activity from './components/bartChart.js'; // Modification du chemin d'importation
+import AverageSession from './components/lineChart.js'; // Modification du chemin d'importation
+import RadarPerformanceChart from './components/radarChart.js'; // Modification du chemin d'importation
+import KpiScore from './components/kpiScore.js'; // Modification du chemin d'importation
+import Header from './components/Header';
+import Nutri from './components/Nutri';
+import Nav from './components/Nav';
+import Asside from './components/Asside';
 import './App.css';
 
 const App = () => {
   const [userData, setUserData] = useState({});
-  const userId = 18; // Vous pouvez spécifier l'ID de l'utilisateur ici
+  const userId = 18;
 
   useEffect(() => {
-    // Fonction pour récupérer et mettre à jour les données de l'utilisateur
     const fetchUserData = async () => {
       try {
-        const userDataResponse = await getUserDataById(userId);
-        const activityDataResponse = await getUserActivityById(userId);
-        const keyDataResponse = await getUserKeyDataById(userId);
+        const mainData = await getUserMainData(userId);
+        const activityData = await getUserActivity(userId);
+        const averageSessionsData = await getUserAverageSessions(userId);
+        const performanceData = await getUserPerformance(userId);
 
         setUserData({
-          userInfo: userDataResponse,
-          activity: activityDataResponse,
-          keyData: keyDataResponse
+          userInfo: mainData,
+          activity: activityData,
+          averageSessions: averageSessionsData,
+          performance: performanceData
         });
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    // Appeler la fonction pour récupérer les données de l'utilisateur lors du montage du composant
     fetchUserData();
   }, [userId]);
 
@@ -45,25 +45,14 @@ const App = () => {
           <Header userId={userId} />
           <div className='flex3'>
             <div className='flex1'>
-              {/* Vérifiez si les données de l'utilisateur sont disponibles avant de passer les props */}
-              {userData.activity && (
-                <Activity data={userData.activity} />
-              )}
+              <Activity userId={userId} /> {/* Passer userId */}
               <div className='flex2'>
-                {userData.activity && (
-                  <AverageSession data={userData.averageSessions} />
-                )}
-                {userData.activity && (
-                  <RadarPerformanceChart data={userData.performance} />
-                )}
-                {userData.userInfo && (
-                  <KpiScore score={userData.userInfo.score} />
-                )}
+                <AverageSession userId={userId} /> {/* Passer userId */}
+                <RadarPerformanceChart userId={userId} /> {/* Passer userId */}
+                {userData.userInfo && <KpiScore score={userData.userInfo.score} />}
               </div>
             </div>
-            {userData.keyData && (
-              <Nutri data={userData.keyData} />
-            )}
+            {userData.userInfo && <Nutri data={userData.userInfo.keyData} />}
           </div>
         </div>
       </div>
