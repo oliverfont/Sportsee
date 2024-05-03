@@ -48,8 +48,8 @@ const App = () => {
               <Activity userId={userId} /> {/* Passer userId */}
               <div className='flex2'>
                 <AverageSession userId={userId} /> {/* Passer userId */}
-                <RadarPerformanceChart userId={userId} /> {/* Passer userId */}
-                {userData.userInfo && <KpiScore score={userData.userInfo.score} />}
+                <RadarPerformanceChart data={userData.performance} />
+                <KpiScore score={userData.score} />
               </div>
             </div>
             {userData.userInfo && <Nutri data={userData.userInfo.keyData} />}
