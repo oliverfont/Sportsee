@@ -1,26 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis } from 'recharts';
-import { getUserPerformance } from '../sevices/apiService'; // Importer la fonction pour récupérer les données depuis le service API
 import './styles/radarChart.css';
 
-const Performance = ({ userId }) => { // Récupérer userId depuis les props
-  const [formattedData, setFormattedData] = useState([]);
+const Performance = ({ data }) => {
+  const performanceNames = {
+    1: 'cardio',
+    2: 'energy',
+    3: 'endurance',
+    4: 'strength',
+    5: 'speed',
+    6: 'intensity'
+  };
+
+  // Réorganiser les données pour que "intensity" soit au début de la liste
+  const formattedData = data && data.data && data.kind ? Object.keys(data.kind).map(key => ({
+    kind: performanceNames[key],
+    value: data.data.find(item => item.kind === parseInt(key))?.value || 0
+  })).sort((a, b) => a.kind === 'intensity' ? -1 : b.kind === 'intensity' ? 1 : 0) : [];
+
   const chartRef = useRef(null);
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const performanceData = await getUserPerformance(userId); // Utiliser userId pour récupérer les données de performance
-        // Mettre à jour l'état avec les données récupérées
-        setFormattedData(performanceData);
-      } catch (error) {
-        console.error('Error fetching performance data:', error);
-      }
-    };
-
-    fetchData();
-  }, [userId]); // Utiliser userId comme dépendance pour recharger les données lorsque userId change
 
   useEffect(() => {
     const updateChartSize = () => {
@@ -36,11 +35,11 @@ const Performance = ({ userId }) => { // Récupérer userId depuis les props
     return () => {
       window.removeEventListener('resize', updateChartSize);
     };
-  }, []);
+  }, [chartRef.current]);
 
   return (
     <div style={{ overflow: 'hidden', padding: '0 10px', borderRadius: '5px', background: '#282D30', width: '100%', height: '300px', margin: 'auto' }} ref={chartRef}>
-      <ResponsiveContainer width={chartSize.width} height={chartSize.height}>
+      <ResponsiveContainer width="100%" height="100%">
         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={formattedData}>
           <PolarGrid radialLines={false} strokeWidth={2} />
           <Radar name="Performance" dataKey="value" fill="#8884d8" fillOpacity={0.8} style={{ fill: 'rgba(255, 1, 1, 0.70)' }} />

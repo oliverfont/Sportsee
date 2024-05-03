@@ -57,9 +57,7 @@ const App = () => {
                 <RadarPerformanceChart userId={userId} />
                 <KpiScore userId={userId} />
               </div>
-            </div>
-            {/* Utilisez la vérification de nullité pour userInfo avant de passer les données à Nutri */}
-            {userInfo && <Nutri data={userInfo.keyData} />}
+            </div><Nutri userId={userId} />
           </div>
         </div>
       </div>
