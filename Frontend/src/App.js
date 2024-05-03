@@ -1,18 +1,21 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import { getUserMainData, getUserActivity, getUserAverageSessions, getUserPerformance } from './sevices/apiService.js';
-import Activity from './components/bartChart.js'; // Modification du chemin d'importation
-import AverageSession from './components/lineChart.js'; // Modification du chemin d'importation
-import RadarPerformanceChart from './components/radarChart.js'; // Modification du chemin d'importation
-import KpiScore from './components/kpiScore.js'; // Modification du chemin d'importation
+import Activity from './components/bartChart.js';
+import AverageSession from './components/lineChart.js';
+import RadarPerformanceChart from './components/radarChart.js';
+import KpiScore from './components/kpiScore.js';
 import Header from './components/Header';
 import Nutri from './components/Nutri';
 import Nav from './components/Nav';
 import Asside from './components/Asside';
 import './App.css';
 
+const userId = 18;
+
 const App = () => {
-  const [userData, setUserData] = useState({});
-  const userId = 18;
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,6 +39,9 @@ const App = () => {
     fetchUserData();
   }, [userId]);
 
+  // Vérifiez si userData est défini et si userData.userInfo est défini avant d'utiliser userData.userInfo
+  const userInfo = userData && userData.userInfo;
+
   return (
     <div className='main'>
       <Nav />
@@ -45,14 +51,15 @@ const App = () => {
           <Header userId={userId} />
           <div className='flex3'>
             <div className='flex1'>
-              <Activity userId={userId} /> {/* Passer userId */}
+              <Activity userId={userId} />
               <div className='flex2'>
-                <AverageSession userId={userId} /> {/* Passer userId */}
-                <RadarPerformanceChart data={userData.performance} />
-                <KpiScore score={userData.score} />
+                <AverageSession userId={userId} />
+                <RadarPerformanceChart userId={userId} />
+                <KpiScore userId={userId} />
               </div>
             </div>
-            {userData.userInfo && <Nutri data={userData.userInfo.keyData} />}
+            {/* Utilisez la vérification de nullité pour userInfo avant de passer les données à Nutri */}
+            {userInfo && <Nutri data={userInfo.keyData} />}
           </div>
         </div>
       </div>

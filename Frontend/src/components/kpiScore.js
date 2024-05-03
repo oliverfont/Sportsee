@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getUserMainData } from '../sevices/apiService.js'; // Assurez-vous d'importer la fonction depuis le bon chemin
 import { ResponsiveContainer, RadialBarChart, RadialBar, Legend } from 'recharts';
 import './styles/kpiScore.css';
 
-const KpiScore = ({ score }) => {
+const KpiScore = ({ userId }) => {
+  const [score, setScore] = useState(null);
+
+  useEffect(() => {
+    const fetchScore = async () => {
+      try {
+        const userData = await getUserMainData(userId);
+        const userScore = userData && userData.data && userData.data.score;
+        setScore(userScore);
+      } catch (error) {
+        console.error('Error fetching user score:', error);
+      }
+    };
+
+    fetchScore();
+  }, [userId]);
+
   // Assurez-vous que le score est défini
-  if (score === undefined) return <div>Loading score...</div>;
+  if (score === null) return <div>Loading score...</div>;
 
   // Multipliez le score par 100 pour obtenir le pourcentage
   const percentage = score * 100;

@@ -9,10 +9,10 @@ const Nutri = ({ data }) => {
   if (!data) return <div>Loading nutri...</div>;
 
   const dataWithIcons = [
-    { label: 'Calories', value: data.keyData.calorieCount, icon: calorieIcon },
-    { label: 'Protéines', value: data.keyData.proteinCount, icon: proteinIcon },
-    { label: 'Glucides', value: data.keyData.carbohydrateCount, icon: carbohydrateIcon },
-    { label: 'Lipides', value: data.keyData.lipidCount, icon: lipidIcon }
+    { label: 'Calories', value: data.calorieCount, icon: calorieIcon },
+    { label: 'Protéines', value: data.proteinCount, icon: proteinIcon },
+    { label: 'Glucides', value: data.carbohydrateCount, icon: carbohydrateIcon },
+    { label: 'Lipides', value: data.lipidCount, icon: lipidIcon }
   ];
 
   return (
