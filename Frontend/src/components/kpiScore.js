@@ -4,7 +4,7 @@ import './styles/kpiScore.css';
 
 const KpiScore = ({ score }) => {
   // Assurez-vous que le score est défini
-  if (score === undefined) return null;
+  if (score === undefined) return <div>Loading score...</div>;
 
   // Multipliez le score par 100 pour obtenir le pourcentage
   const percentage = score * 100;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserActivity } from '../sevices/apiService.js'; // Importation de la fonction getUserActivity depuis le service API
+import { getUserActivity } from '../sevices/apiService.js';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
 import './styles/BarChart.css';
 
@@ -22,22 +22,19 @@ const Activity = ({ userId }) => {
     const [activityData, setActivityData] = useState(null);
 
     useEffect(() => {
-        // Fonction pour récupérer les données d'activité depuis l'API
         const fetchActivityData = async () => {
             try {
-                // Appel à getUserActivity pour récupérer les données d'activité de l'utilisateur
-                const activity = await getUserActivity(userId);
-                setActivityData(activity);
-                console.log(activity)
+                const response = await getUserActivity(userId);
+                const sessions = response.data.sessions;
+                setActivityData(sessions);
             } catch (error) {
                 console.error('Error fetching activity data:', error);
                 setActivityData(null);
             }
         };
 
-        // Appel de la fonction pour récupérer les données d'activité lors du montage du composant
         fetchActivityData();
-    }, [userId]); // userId est une dépendance de l'effet, donc il est inclus dans le tableau de dépendances
+    }, [userId]);
 
     if (!activityData || !activityData.length) {
         return <div>Loading...</div>;
@@ -45,7 +42,6 @@ const Activity = ({ userId }) => {
 
     const minWeight = Math.min(...activityData.map(entry => entry.kilogram));
     const maxWeight = Math.max(...activityData.map(entry => entry.kilogram));
-
     const weightDomain = [minWeight - 1, maxWeight + 0];
 
     return (
