@@ -1,6 +1,5 @@
-// App.js
-
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getUserMainData, getUserActivity, getUserAverageSessions, getUserPerformance } from './sevices/apiService.js';
 import Activity from './components/bartChart.js';
 import AverageSession from './components/lineChart.js';
@@ -12,10 +11,9 @@ import Nav from './components/Nav';
 import Asside from './components/Asside';
 import './App.css';
 
-const userId = 12;
-
 const App = () => {
   const [userData, setUserData] = useState(null);
+  const { userId } = useParams(); // Utiliser useParams pour obtenir userId de l'URL
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,7 +42,7 @@ const App = () => {
 
   return (
     <div className='main'>
-      <Nav />
+      <Nav selectedUserId={userId} /> {/* Passer l'ID sélectionné comme prop à Nav */}
       <div className='flex'>
         <Asside />
         <div className='flex4'>
@@ -57,7 +55,8 @@ const App = () => {
                 <RadarPerformanceChart userId={userId} />
                 <KpiScore userId={userId} />
               </div>
-            </div><Nutri userId={userId} />
+            </div>
+            <Nutri userId={userId} />
           </div>
         </div>
       </div>

@@ -1,39 +1,35 @@
 // Home.jsx
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Nav from "../components/Nav";
 import Asside from "../components/Asside";
-import { getUserMainData } from "../sevices/apiService";
+import App from "../App";
 import '../App.css';
+import Nav from "../components/Nav";
 
 const Home = () => {
-    const [userIds, setUserIds] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState(null); // Ajoutez une variable d'état pour le profil sélectionné
 
-    useEffect(() => {
-        const fetchUserIds = async () => {
-            try {
-                const userIdsFromAPI = await getUserMainData();
-                setUserIds(userIdsFromAPI);
-            } catch (error) {
-                console.error('Error fetching user IDs:', error);
-            }
-        };
-
-        fetchUserIds();
-    }, []);
+    const handleProfileSelect = (userId) => {
+        setSelectedUserId(userId); // Mettre à jour le profil sélectionné
+        // Enregistrer l'ID du profil sélectionné dans le stockage local
+        localStorage.setItem('lastSelectedProfile', userId);
+    };
 
     return (
         <div className='main'>
-            <Nav />
+            <Nav selectedUserId={selectedUserId} /> {/* Passer l'ID sélectionné comme prop à Nav */}
             <div className='flex'>
                 <Asside />
-                <h1 className="title">Choisissez votre profil :</h1>
-                {userIds.map(userId => (
-                    <div key={userId}>
-                        <Link to={`/${userId}`}>Profil {userId}</Link>
+                <div className='flex4'>
+                    <h1 className="title">Choisissez votre profil :</h1>
+                    <div>
+                        <Link to={`/profile/12`} onClick={() => handleProfileSelect(12)}>Profil Karl</Link>
                     </div>
-                ))}
+                    <div>
+                        <Link to={`/profile/18`} onClick={() => handleProfileSelect(18)}>Profil Cecilia</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );

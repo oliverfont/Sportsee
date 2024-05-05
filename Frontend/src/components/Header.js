@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getUserMainData } from '../sevices/apiService.js'; // Correction du chemin d'importation et de la fonction à utiliser
+import { useParams } from 'react-router-dom'; // Importer useParams depuis react-router-dom
+import { getUserMainData } from '../sevices/apiService.js';
 import './styles/Header.css';
 
-const Header = ({ userId }) => {
+const Header = () => {
     const [userFirstName, setUserFirstName] = useState('');
+    const { userId } = useParams(); // Extraire userId à partir des paramètres de l'URL
 
     useEffect(() => {
         // Fonction pour récupérer les données de l'utilisateur depuis l'API
         const fetchUserData = async () => {
             try {
-                const userData = await getUserMainData(userId); // Utilisation de getUserMainData
+                const userData = await getUserMainData(userId); // Utilisation de getUserMainData avec userId
                 setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
                 console.error('Error fetching user data:', error);

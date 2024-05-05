@@ -1,14 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import Home from './pages/Home';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <div> {/* Parent container for Nav and Routes */}
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path="/profile/:userId" element={<App />} /> {/* Corrected Route for profile page */}
+        </Routes>
+      </div>
+    </Router>
   </React.StrictMode>
 );
 
