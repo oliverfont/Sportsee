@@ -41,3 +41,14 @@ export const getUserPerformance = async (userId) => {
         throw new Error('Erreur lors de la récupération des performances de l\'utilisateur');
     }
 };
+  
+export const getAllUsersMainData = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/users/main-data`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all users main data:', error);
+      throw new Error('Erreur lors de la récupération des données principales de tous les utilisateurs');
+    }
+  };
+  

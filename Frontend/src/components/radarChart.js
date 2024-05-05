@@ -1,25 +1,25 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis } from 'recharts';
+import { getUserPerformance } from '../sevices/apiService'; // Import du service API
 import './styles/radarChart.css';
 
-const Performance = ({ data }) => {
-  const performanceNames = {
-    1: 'cardio',
-    2: 'energy',
-    3: 'endurance',
-    4: 'strength',
-    5: 'speed',
-    6: 'intensity'
-  };
-
-  // Réorganiser les données pour que "intensity" soit au début de la liste
-  const formattedData = data && data.data && data.kind ? Object.keys(data.kind).map(key => ({
-    kind: performanceNames[key],
-    value: data.data.find(item => item.kind === parseInt(key))?.value || 0
-  })).sort((a, b) => a.kind === 'intensity' ? -1 : b.kind === 'intensity' ? 1 : 0) : [];
-
+const Performance = ({ userId }) => {
+  const [performanceData, setPerformanceData] = useState(null);
   const chartRef = useRef(null);
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const fetchPerformanceData = async () => {
+      try {
+        const userData = await getUserPerformance(userId); // Utilisation du service API pour récupérer les données
+        setPerformanceData(userData.data);
+      } catch (error) {
+        console.error('Error fetching performance data:', error);
+      }
+    };
+
+    fetchPerformanceData();
+  }, [userId]);
 
   useEffect(() => {
     const updateChartSize = () => {
@@ -36,6 +36,22 @@ const Performance = ({ data }) => {
       window.removeEventListener('resize', updateChartSize);
     };
   }, [chartRef.current]);
+
+  if (!performanceData) return <div>Loading performance...</div>;
+
+  const performanceNames = {
+    1: 'cardio',
+    2: 'energy',
+    3: 'endurance',
+    4: 'strength',
+    5: 'speed',
+    6: 'intensity'
+  };
+
+  const formattedData = Object.keys(performanceData.kind).map(key => ({
+    kind: performanceNames[key],
+    value: performanceData.data.find(item => item.kind === parseInt(key))?.value || 0
+  })).sort((a, b) => a.kind === 'intensity' ? -1 : b.kind === 'intensity' ? 1 : 0);
 
   return (
     <div style={{ overflow: 'hidden', padding: '0 10px', borderRadius: '5px', background: '#282D30', width: '100%', height: '300px', margin: 'auto' }} ref={chartRef}>

@@ -12,7 +12,7 @@ import Nav from './components/Nav';
 import Asside from './components/Asside';
 import './App.css';
 
-const userId = 18;
+const userId = 12;
 
 const App = () => {
   const [userData, setUserData] = useState(null);
