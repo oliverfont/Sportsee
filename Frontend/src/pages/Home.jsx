@@ -24,10 +24,10 @@ const Home = () => {
                 <div className='flex4'>
                     <h1 className="title">Choisissez votre profil :</h1>
                     <div>
-                        <Link to={`/profile/12`} onClick={() => handleProfileSelect(12)}>Profil Karl</Link>
+                        <Link to={`/profile/12`} onClick={() => handleProfileSelect(12)}>Karl</Link>
                     </div>
                     <div>
-                        <Link to={`/profile/18`} onClick={() => handleProfileSelect(18)}>Profil Cecilia</Link>
+                        <Link to={`/profile/18`} onClick={() => handleProfileSelect(18)}>Cecilia</Link>
                     </div>
                 </div>
             </div>
