@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getUserMainData, getUserActivity, getUserAverageSessions, getUserPerformance } from './sevices/apiService.js';
+import { USER_MAIN_DATA, USER_ACTIVITY, USER_AVERAGE_SESSIONS, USER_PERFORMANCE } from './mock/dataMock.js';
 import Activity from './components/bartChart.js';
 import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
