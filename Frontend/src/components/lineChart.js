@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getUserAverageSessions } from '../sevices/apiService'; // Assure-toi d'importer la fonction depuis le bon chemin
-import { LineChart, Line, XAxis, Tooltip, YAxis, ResponsiveContainer } from 'recharts';
+import { getUserAverageSessions } from '../sevices/apiService';
+import { LineChart, Area, Line, XAxis, Tooltip, YAxis, ResponsiveContainer, ReferenceArea } from 'recharts';
 import './styles/LineChart.css';
-import { curveCardinal } from 'd3-shape'; // Importez curveCardinal depuis d3-shape
+import { curveCardinal } from 'd3-shape'; 
 
 const AverageSession = ({ userId }) => {
   const [sessionData, setSessionData] = useState(null);
+  const [mouseX, setMouseX] = useState(null); // Position X de la souris
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getUserAverageSessions(userId); // Utilise userId pour récupérer les données spécifiques à l'utilisateur
+        const data = await getUserAverageSessions(userId); 
         setSessionData(data);
       } catch (error) {
         console.error('Error fetching average session data:', error);
@@ -25,7 +26,9 @@ const AverageSession = ({ userId }) => {
     return <div>Loading session...</div>;
   }
 
-  console.log('Data received:', sessionData);
+  const handleMouseMove = (e) => {
+    setMouseX(e.nativeEvent.offsetX);
+  };
 
   const dayNames = {
     1: 'L',
@@ -42,10 +45,8 @@ const AverageSession = ({ userId }) => {
     sessionLength: session.sessionLength
   }));
 
-  console.log('Formatted data:', formattedData);
-
   return (
-    <div className='line-chart' style={{ overflow: 'hidden', padding: '0 10px', background: '#F00', borderRadius: '5px', width: '100%' }}>
+    <div className='line-chart' style={{ overflow: 'hidden', padding: '0 10px', background: '#F00', borderRadius: '5px', width: '100%' }} onMouseMove={handleMouseMove}>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={formattedData}>
           <defs>
@@ -60,6 +61,8 @@ const AverageSession = ({ userId }) => {
           <Tooltip labelStyle={{ display: 'none' }} labelFormatter={() => null} formatter={(value) => value} itemStyle={{ color: '#000000' }} />
           <Line dot={false} type="basis" dataKey="sessionLength" curve={curveCardinal} stroke="url(#strokeGradient)" strokeWidth={2} />
           <text width={20} height={60} x="50%" y="60" fontSize={16} textAnchor="middle" fill="#FFFFFF" opacity={0.6} fontWeight={'bold'}>Durée moyenne des sessions</text>
+              <Area type="monotone" dataKey="amt" fill="#000" stroke="#000" />
+
         </LineChart>
       </ResponsiveContainer>
     </div>
