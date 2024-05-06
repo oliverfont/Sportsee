@@ -35,8 +35,8 @@ const Nav = ({ selectedUserId }) => {
                             Profil
                         </Link>
                     </li>
-                    <li><Link to='/settings'>Réglage</Link></li>
-                    <li><Link to='/community'>Communauté</Link></li>
+                    <li><Link to='/#'>Réglage</Link></li>
+                    <li><Link to='/#'>Communauté</Link></li>
                 </ul>
             </nav>
         </div>
