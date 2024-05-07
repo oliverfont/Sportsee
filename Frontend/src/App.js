@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Nutri from './components/Nutri';
 import Nav from './components/Nav';
 import Asside from './components/Asside';
-import Loader from './components/Loader'; // Importer le composant Loader
+import Loader from './components/Loader';
 import './App.css';
 
 const App = () => {

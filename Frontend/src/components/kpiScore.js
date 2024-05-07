@@ -27,16 +27,10 @@ const KpiScore = ({ userId }) => {
     fetchScore();
   }, [userId]);
 
-  // Assurez-vous que le score est défini
   if (score === null) return <div>Loading score...</div>;
 
-  // Multipliez le score par 100 pour obtenir le pourcentage
   const percentage = score * 100;
-
-  // Calculer l'angle de fin basé sur le pourcentage
-  const endAngle = (percentage * 3.6) - 180; // Soustrayez 180 pour aligner l'angle avec le démarrage à 0
-
-  // Données pour le graphique radial
+  const endAngle = (percentage * 3.6) - 180; 
   const data = [{ name: 'Score', value: percentage }];
 
   return (

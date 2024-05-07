@@ -60,7 +60,6 @@ const AverageSession = ({ userId }) => {
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={formattedData}>
           <defs>
-            {/* Dégradé linéaire */}
             <linearGradient id="strokeGradient" x1="100%" y1="0%" x2="0%" y2="0%">
               <stop offset="0%" stopColor="#FFFFFF" stopOpacity={1} />
               <stop offset="40.32%" stopColor="#FFFFFF" stopOpacity={0.4} />

@@ -16,7 +16,7 @@ const Nutri = ({ userId }) => {
     const fetchNutriData = async () => {
       try {
         const response = await axios.get(`${baseURL}/user/${userId}`);
-        setNutriData(response.data.data.keyData); // Accéder à la propriété keyData des données de réponse
+        setNutriData(response.data.data.keyData);
       } catch (error) {
         console.error('Error fetching nutri data:', error);
         const userMainDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));

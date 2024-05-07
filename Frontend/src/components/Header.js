@@ -21,7 +21,7 @@ const Header = () => {
                 if (userDataFromMock) {
                     setUserFirstName(userDataFromMock.userInfos.firstName);
                 } else {
-                    setUserFirstName(''); // Ajustez cette valeur en conséquence si aucune donnée ne doit être affichée
+                    setUserFirstName('');
                 }
             }
         };

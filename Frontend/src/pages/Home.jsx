@@ -1,5 +1,3 @@
-// Home.jsx
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Asside from "../components/Asside";
@@ -8,17 +6,17 @@ import '../App.css';
 import Nav from "../components/Nav";
 
 const Home = () => {
-    const [selectedUserId, setSelectedUserId] = useState(null); // Ajoutez une variable d'état pour le profil sélectionné
+    const [selectedUserId, setSelectedUserId] = useState(null); 
 
     const handleProfileSelect = (userId) => {
         setSelectedUserId(userId); // Mettre à jour le profil sélectionné
-        // Enregistrer l'ID du profil sélectionné dans le stockage local
+        // Enregistre l'ID du profil sélectionné dans le stockage local
         localStorage.setItem('lastSelectedProfile', userId);
     };
 
     return (
         <div className='main'>
-            <Nav selectedUserId={selectedUserId} /> {/* Passer l'ID sélectionné comme prop à Nav */}
+            <Nav selectedUserId={selectedUserId} />
             <div className='flex'>
                 <Asside />
                 <div className='flex4'>
