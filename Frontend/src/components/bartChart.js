@@ -19,28 +19,49 @@ const CustomBar = (props) => {
     );
 };
 
+const renderLegendIcon = (props) => {
+    const { payload } = props;
+
+    return (
+        <ul className="custom-legend">
+            {payload.map((entry, index) => (
+                <li key={`item-${index}`} style={{ listStyle: 'none', display: 'inline-block', marginRight: 20 }}>
+                    <svg width={10} height={10}>
+                        <circle cx={5} cy={5} r={5} fill={entry.color} />
+                    </svg>
+                    <span style={{ marginLeft: 5 }}>{entry.value}</span>
+                </li>
+            ))}
+        </ul>
+    );
+};
+
 const Activity = ({ userId }) => {
     const [activityData, setActivityData] = useState(null);
+    const [useMockData, setUseMockData] = useState(false);
 
     useEffect(() => {
-        const fetchActivityData = async () => {
+        const fetchData = async () => {
             try {
-                const response = await getUserActivity(userId);
-                const sessions = response.data.sessions;
-                setActivityData(sessions);
+                if (!useMockData) {
+                    const response = await getUserActivity(userId);
+                    setActivityData(response.data.sessions);
+                } else {
+                    const userActivityFromMock = USER_ACTIVITY.find(user => user.userId === parseInt(userId));
+                    if (userActivityFromMock) {
+                        setActivityData(userActivityFromMock.sessions);
+                    } else {
+                        setActivityData(null);
+                    }
+                }
             } catch (error) {
                 console.error('Error fetching activity data:', error);
-                const userActivityFromMock = USER_ACTIVITY.find(user => user.userId === parseInt(userId));
-                if (userActivityFromMock) {
-                    setActivityData(userActivityFromMock.sessions);
-                } else {
-                    setActivityData(null);
-                }
+                setUseMockData(true);
             }
         };
 
-        fetchActivityData();
-    }, [userId]);
+        fetchData();
+    }, [userId, useMockData]);
 
     if (!activityData || !activityData.length) {
         return <div>Loading...</div>;
@@ -57,15 +78,15 @@ const Activity = ({ userId }) => {
             </div>
             <div className="activity-chart">
                 <ResponsiveContainer width="100%" height={300}>
-                    <BarChart background='#FBFBFB' data={activityData}>
-                        <XAxis dataKey="day" tickLine={false} dy={10} dx={-25} />
+                    <BarChart background='#FBFBFB' data={activityData} barCategoryGap={50}>
+                        <XAxis dataKey="day" tickLine={false} dy={10} dx={-5} tickFormatter={(value, index) => index + 1} />
                         <YAxis yAxisId="right" tickLine={false} orientation="right" domain={weightDomain} axisLine={false} />
                         <YAxis yAxisId="left" hide domain={[0, 550]} />
                         <Tooltip verticalAlign="top" align="left" label="Titre" labelStyle={{ textAlign: 'left', fontSize: 16, fontWeight: 'bold' }} />
-                        <Legend verticalAlign="top" align="right" />
+                        <Legend verticalAlign="top" align="right" iconType="circle" content={renderLegendIcon} />
                         <CartesianGrid vertical={false} stroke="#ccc" strokeWidth={1} strokeDasharray="3 3" />
-                        <Bar dataKey="kilogram" fill="#282D30" yAxisId="right" shape={<CustomBar />} />
-                        <Bar dataKey="calories" fill="#E60000" yAxisId="left" shape={<CustomBar />} />
+                        <Bar dataKey="kilogram" fill="#282D30" yAxisId="right" shape={<CustomBar />} name="Poids (kg)" />
+                        <Bar dataKey="calories" fill="#E60000" yAxisId="left" shape={<CustomBar />} name="Calories brulées (kCal)" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

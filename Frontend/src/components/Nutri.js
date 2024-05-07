@@ -34,20 +34,20 @@ const Nutri = ({ userId }) => {
   if (!nutriData) return <div>Loading nutri...</div>;
 
   const dataWithIcons = [
-    { label: 'Calories', value: nutriData.calorieCount, icon: calorieIcon },
-    { label: 'Protéines', value: nutriData.proteinCount, icon: proteinIcon },
-    { label: 'Glucides', value: nutriData.carbohydrateCount, icon: carbohydrateIcon },
-    { label: 'Lipides', value: nutriData.lipidCount, icon: lipidIcon }
+    { label: 'Calories', value: `${nutriData.calorieCount}kCal`, icon: calorieIcon },
+    { label: 'Protéines', value: `${nutriData.proteinCount}g`, icon: proteinIcon },
+    { label: 'Glucides', value: `${nutriData.carbohydrateCount}g`, icon: carbohydrateIcon },
+    { label: 'Lipides', value: `${nutriData.lipidCount}g`, icon: lipidIcon }
   ];
-
+  
   return (
     <div className='nutri'>
       {dataWithIcons.map((item, index) => (
         <div className='nutri-item' key={index}>
           <img src={item.icon} alt={item.label} style={{ width: '60px', height: '60px' }} />
           <div>
-            <p>{item.value}</p>
-            <p>{item.label}</p>
+            <p style={{ fontSize: '20px', fontWeight: 'bold', margin: '3px 0' }}>{item.value}</p>
+            <p style={{ fontSize: '14px', fontWeight: 'bold', color: '#74798C', margin: '3px 0'  }}>{item.label}</p>
           </div>
         </div>
       ))}

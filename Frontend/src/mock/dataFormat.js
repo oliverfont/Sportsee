@@ -19,8 +19,8 @@ const formatUserData = (userData) => {
 const formatUserActivity = (activityData) => {
     return activityData.sessions.map(session => ({
         day: new Date(session.day), // Convertir la chaîne de date en objet Date
-        kilogram: session.kilogram,
-        calories: session.calories
+        Kg: session.kilogram,
+        KCal: session.calories
     }));
 };
 
@@ -28,7 +28,7 @@ const formatUserActivity = (activityData) => {
 const formatUserAverageSessions = (averageSessionsData) => {
     return averageSessionsData.sessions.map(session => ({
         day: session.day,
-        sessionLength: session.sessionLength
+        '' : session.sessionLength
     }));
 };
 

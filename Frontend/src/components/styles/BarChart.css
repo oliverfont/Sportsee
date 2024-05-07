@@ -15,3 +15,11 @@
 ul.recharts-default-legend {
     margin: -85px 20px 0 0 !important;
 }
+
+.custom-legend {
+    display: flex;
+    justify-content: end;
+    font-weight: bold;
+    color: gray;
+    margin-top: -80px;
+  }

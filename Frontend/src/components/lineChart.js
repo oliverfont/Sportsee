@@ -37,19 +37,23 @@ const AverageSession = ({ userId }) => {
   };
 
   const dayNames = {
+    0: 'D',
     1: 'L',
     2: 'M',
     3: 'M',
     4: 'J',
     5: 'V',
     6: 'S',
-    7: 'D'
+    7: 'D',
+    8: 'L'
   };
 
   const formattedData = sessionData.data.sessions.map(session => ({
     day: dayNames[session.day],
     sessionLength: session.sessionLength
   }));
+
+  const formatTooltip = (value) => `${value} min`;
 
   return (
     <div className='line-chart' style={{ overflow: 'hidden', padding: '0 10px', background: '#F00', borderRadius: '5px', width: '100%' }} onMouseMove={handleMouseMove}>
@@ -64,14 +68,14 @@ const AverageSession = ({ userId }) => {
           </defs>
           <XAxis dataKey="day" axisLine={false} tickLine={false} interval={0} tick={{ fill: '#FFFFFF', opacity: 0.6 }} dy={0} />
           <YAxis domain={[0, 120]} hide={true} />
-          <Tooltip labelStyle={{ display: 'none' }} labelFormatter={() => null} formatter={(value) => value} itemStyle={{ color: '#000000' }} />
+          <Tooltip itemStyle={{ display: 'none' }} labelStyle={{ display: 'none' }} labelFormatter={('')} formatter={(value) => `${value} min`} itemStyle={{ color: '#000000', fontWeight: 'bold' }} />
           <Line dot={false} type="basis" dataKey="sessionLength" curve={curveCardinal} stroke="url(#strokeGradient)" strokeWidth={2} />
           <text width={20} height={60} x="50%" y="60" fontSize={16} textAnchor="middle" fill="#FFFFFF" opacity={0.6} fontWeight={'bold'}>Durée moyenne des sessions</text>
-              <Area type="monotone" dataKey="amt" fill="#000" stroke="#000" />
-
+          <Area type="monotone" dataKey="amt" fill="#000" stroke="#000" />
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );};
+  );
+};
 
 export default AverageSession;
