@@ -1,5 +1,3 @@
-// Nav.jsx
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/Group(1).svg';
@@ -27,13 +25,10 @@ const Nav = ({ selectedUserId }) => {
                 <ul>
                     <li><Link to='/'>Accueil</Link></li>
                     <li>
-                        <Link
-                            to={`/profile/${lastSelectedProfile}`} 
-                            onClick={() => handleProfileSelect(lastSelectedProfile)} // Mise à jour ici
+                        <Link to={`/profile/${lastSelectedProfile}`} 
+                            onClick={() => handleProfileSelect(lastSelectedProfile)}
                             className={lastSelectedProfile ? 'active' : ''}
-                        >
-                            Profil
-                        </Link>
+                        >Profil</Link>
                     </li>
                     <li><Link to='/#'>Réglage</Link></li>
                     <li><Link to='/#'>Communauté</Link></li>

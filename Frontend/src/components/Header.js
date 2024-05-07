@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Importer useParams depuis react-router-dom
+import { useParams } from 'react-router-dom';
 import { getUserMainData } from '../sevices/apiService.js';
+import { USER_MAIN_DATA } from '../mock/dataMock.js';
 import './styles/Header.css';
 
 const Header = () => {
@@ -8,25 +9,30 @@ const Header = () => {
     const { userId } = useParams(); // Extraire userId à partir des paramètres de l'URL
 
     useEffect(() => {
-        // Fonction pour récupérer les données de l'utilisateur depuis l'API
         const fetchUserData = async () => {
             try {
-                const userData = await getUserMainData(userId); // Utilisation de getUserMainData avec userId
+                // Tente d'obtenir les données de l'utilisateur depuis l'API
+                const userData = await getUserMainData(userId);
                 setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
+                // En cas d'erreur, utilise les données de secours du mock
                 console.error('Error fetching user data:', error);
-                setUserFirstName('');
+                const userDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
+                if (userDataFromMock) {
+                    setUserFirstName(userDataFromMock.userInfos.firstName);
+                } else {
+                    setUserFirstName(''); // Ajustez cette valeur en conséquence si aucune donnée ne doit être affichée
+                }
             }
         };
 
-        // Appel de la fonction pour récupérer les données de l'utilisateur
         fetchUserData();
-    }, [userId]); // Exécuter l'effet à chaque fois que userId change
+    }, [userId]);
 
     return (
         <div className='header'>
             <h1>Bonjour <span className="red">{userFirstName}</span></h1>
-            <p>Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
+            <p>Félicitations ! Vous avez explosé vos objectifs hier 👏</p>
         </div>
     );
 };

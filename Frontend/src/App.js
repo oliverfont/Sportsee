@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUserMainData, getUserActivity, getUserAverageSessions, getUserPerformance } from './sevices/apiService.js';
-import { USER_MAIN_DATA, USER_ACTIVITY, USER_AVERAGE_SESSIONS, USER_PERFORMANCE } from './mock/dataMock.js';
 import Activity from './components/bartChart.js';
 import AverageSession from './components/lineChart.js';
 import RadarPerformanceChart from './components/radarChart.js';
@@ -10,40 +8,55 @@ import Header from './components/Header';
 import Nutri from './components/Nutri';
 import Nav from './components/Nav';
 import Asside from './components/Asside';
+import Loader from './components/Loader'; // Importer le composant Loader
 import './App.css';
 
 const App = () => {
-  const [userData, setUserData] = useState(null);
-  const { userId } = useParams(); // Utiliser useParams pour obtenir userId de l'URL
+  const { userId } = useParams();
+  const [apiIsDown, setApiIsDown] = useState(false);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const checkApiStatus = async () => {
       try {
-        const mainData = await getUserMainData(userId);
-        const activityData = await getUserActivity(userId);
-        const averageSessionsData = await getUserAverageSessions(userId);
-        const performanceData = await getUserPerformance(userId);
-
-        setUserData({
-          userInfo: mainData,
-          activity: activityData,
-          averageSessions: averageSessionsData,
-          performance: performanceData
-        });
+        // Faire une requête bidon à l'API pour vérifier son état
+        const response = await fetch('http://localhost:3000/user/18');
+        if (!response.ok) {
+          setApiIsDown(true); // Définir apiIsDown à true en cas d'échec de la requête
+        }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error checking API status:', error);
+        setApiIsDown(true); // Définir apiIsDown à true en cas d'erreur
       }
     };
 
-    fetchUserData();
-  }, [userId]);
+    checkApiStatus();
+  }, []);
 
-  // Vérifiez si userData est défini et si userData.userInfo est défini avant d'utiliser userData.userInfo
-  const userInfo = userData && userData.userInfo;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setApiIsDown(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (apiIsDown) {
+    return (
+      <div className='main'>
+        <Nav selectedUserId={userId} />
+        <div className='flex'>
+          <Asside />
+          <div className='flex4'>
+            <Loader />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='main'>
-      <Nav selectedUserId={userId} /> {/* Passer l'ID sélectionné comme prop à Nav */}
+      <Nav selectedUserId={userId} />
       <div className='flex'>
         <Asside />
         <div className='flex4'>

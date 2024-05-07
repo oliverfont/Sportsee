@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUserAverageSessions } from '../sevices/apiService';
-import { LineChart, Area, Line, XAxis, Tooltip, YAxis, ResponsiveContainer, ReferenceArea } from 'recharts';
+import { USER_AVERAGE_SESSIONS } from '../mock/dataMock';
+import { LineChart, Line, XAxis, Area, Tooltip, YAxis, ResponsiveContainer } from 'recharts';
 import './styles/LineChart.css';
 import { curveCardinal } from 'd3-shape'; 
 
@@ -15,13 +16,18 @@ const AverageSession = ({ userId }) => {
         setSessionData(data);
       } catch (error) {
         console.error('Error fetching average session data:', error);
+        const userAverageSessionsFromMock = USER_AVERAGE_SESSIONS.find(user => user.userId === parseInt(userId));
+        if (userAverageSessionsFromMock) {
+          setSessionData({ data: { sessions: userAverageSessionsFromMock.sessions } });
+        } else {
+          setSessionData(null);
+        }
       }
     };
 
     fetchData();
   }, [userId]);
 
-  // Vérifiez si les données sont disponibles
   if (!sessionData || !sessionData.data || !sessionData.data.sessions.length) {
     return <div>Loading session...</div>;
   }
@@ -66,7 +72,6 @@ const AverageSession = ({ userId }) => {
         </LineChart>
       </ResponsiveContainer>
     </div>
-  );
-};
+  );};
 
 export default AverageSession;

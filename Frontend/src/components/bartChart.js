@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getUserActivity } from '../sevices/apiService.js';
+import { USER_ACTIVITY } from '../mock/dataMock.js';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
 import './styles/BarChart.css';
 
@@ -29,7 +30,12 @@ const Activity = ({ userId }) => {
                 setActivityData(sessions);
             } catch (error) {
                 console.error('Error fetching activity data:', error);
-                setActivityData(null);
+                const userActivityFromMock = USER_ACTIVITY.find(user => user.userId === parseInt(userId));
+                if (userActivityFromMock) {
+                    setActivityData(userActivityFromMock.sessions);
+                } else {
+                    setActivityData(null);
+                }
             }
         };
 

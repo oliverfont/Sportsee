@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getUserMainData } from '../sevices/apiService.js'; // Assurez-vous d'importer la fonction depuis le bon chemin
-import { ResponsiveContainer, RadialBarChart, RadialBar, Legend } from 'recharts';
+import { getUserMainData } from '../sevices/apiService.js';
+import { USER_MAIN_DATA } from '../mock/dataMock.js';
+import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
 import './styles/kpiScore.css';
 
 const KpiScore = ({ userId }) => {
@@ -14,6 +15,12 @@ const KpiScore = ({ userId }) => {
         setScore(userScore);
       } catch (error) {
         console.error('Error fetching user score:', error);
+        const userMainDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
+        if (userMainDataFromMock) {
+          setScore(userMainDataFromMock.score);
+        } else {
+          setScore(null);
+        }
       }
     };
 
