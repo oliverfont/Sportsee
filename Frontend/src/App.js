@@ -9,28 +9,36 @@ import Nutri from './components/Nutri';
 import Nav from './components/Nav';
 import Asside from './components/Asside';
 import Loader from './components/Loader';
+import ErrorComponent from './components/ErrorComponent.js'; 
+import { USER_MAIN_DATA } from './mock/dataMock.js'; // Importez les données du mock
 import './App.css';
 
 const App = () => {
   const { userId } = useParams();
   const [apiIsDown, setApiIsDown] = useState(false);
+  const [userExists, setUserExists] = useState(true); 
 
   useEffect(() => {
     const checkApiStatus = async () => {
       try {
-        // Faire une requête bidon à l'API pour vérifier son état
-        const response = await fetch('http://localhost:3000/user/18');
+        const response = await fetch(`http://localhost:3000/user/${userId}`);
         if (!response.ok) {
-          setApiIsDown(true); // Définir apiIsDown à true en cas d'échec de la requête
-        }
+          setApiIsDown(true);
+        } 
       } catch (error) {
         console.error('Error checking API status:', error);
-        setApiIsDown(true); // Définir apiIsDown à true en cas d'erreur
+        setApiIsDown(true);
       }
     };
 
     checkApiStatus();
-  }, []);
+  }, [userId]);
+
+  useEffect(() => {
+    const checkUserExist = USER_MAIN_DATA.map(user => user.id);
+    setUserExists(checkUserExist.includes(parseInt(userId)));
+  }, [userId]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -48,6 +56,20 @@ const App = () => {
           <Asside />
           <div className='flex4'>
             <Loader />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!userExists) {
+    return (
+      <div className='main'>
+        <Nav selectedUserId={userId} />
+        <div className='flex'>
+          <Asside />
+          <div className='flex4'>            
+            <ErrorComponent />
           </div>
         </div>
       </div>

@@ -1,18 +1,11 @@
 import React from 'react';
-import Nav from './Nav';
-import Asside from './Asside';
 
 const ErrorComponent = () => {
   return (
-    <div className='main'>
-    <Nav />
-    <div className='flex'>
-        <Asside />
-        <div className='flex4'>      <h1>Utilisateur introuvable</h1>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <h1>Utilisateur introuvable</h1>
       <p>Le profil de l'utilisateur que vous recherchez n'existe pas.</p>
-      <p>Veuillez vérifier l'URL ou revenir à la page d'accueil.</p>
-    </div>
-    </div>
+      <p>Veuillez vérifier l'URL ou retournez à la page d'accueil.</p>
     </div>
   );
 };

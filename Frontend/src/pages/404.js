@@ -10,7 +10,7 @@ const ErrorComponent = () => {
         <Asside />
         <div className='flex4'>      <h1>Utilisateur introuvable</h1>
       <p>Le profil de l'utilisateur que vous recherchez n'existe pas.</p>
-      <p>Veuillez vérifier l'URL ou revenir à la page d'accueil.</p>
+      <p>Veuillez vérifier l'URL ou retournez à la page d'accueil.</p>
     </div>
     </div>
     </div>
