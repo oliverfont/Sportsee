@@ -1,55 +1,65 @@
-// Fonction pour formater les données de l'utilisateur principal
-const formatUserData = (userData) => {
-    return {
-        id: userData.id,
-        firstName: userData.userInfos.firstName,
-        lastName: userData.userInfos.lastName,
-        age: userData.userInfos.age,
-        todayScore: userData.todayScore,
-        keyData: {
-            calorieCount: userData.keyData.calorieCount,
-            proteinCount: userData.keyData.proteinCount,
-            carbohydrateCount: userData.keyData.carbohydrateCount,
-            lipidCount: userData.keyData.lipidCount
-        }
+import calorieIcon from '../assets/calories-icon.svg';
+import proteinIcon from '../assets/protein-icon.svg';
+import carbohydrateIcon from '../assets/carbs-icon.svg';
+import lipidIcon from '../assets/fat-icon.svg';
+
+class NutriFormatter {
+    static formatNutriData(nutriData) {
+      if (!nutriData) return null;
+  
+      return [
+        { label: 'Calories', value: `${nutriData.calorieCount}kCal`, icon: calorieIcon },
+        { label: 'Protéines', value: `${nutriData.proteinCount}g`, icon: proteinIcon },
+        { label: 'Glucides', value: `${nutriData.carbohydrateCount}g`, icon: carbohydrateIcon },
+        { label: 'Lipides', value: `${nutriData.lipidCount}g`, icon: lipidIcon }
+      ];
+    }
+  }
+
+class PerformanceFormatter {
+  static formatPerformanceData(performanceData) {
+    if (!performanceData) return null;
+
+    const performanceNames = {
+      1: 'cardio',
+      2: 'Energie',
+      3: 'Endurance',
+      4: 'Force',
+      5: 'Vitesse',
+      6: 'Intensité'
     };
-};
 
-// Fonction pour formater les données d'activité de l'utilisateur
-const formatUserActivity = (activityData) => {
-    return activityData.sessions.map(session => ({
-        day: new Date(session.day), // Convertir la chaîne de date en objet Date
-        Kg: session.kilogram,
-        KCal: session.calories
-    }));
-};
+    return Object.keys(performanceData.kind).map(key => ({
+      kind: performanceNames[key],
+      value: performanceData.data.find(item => item.kind === parseInt(key))?.value || 0
+    })).sort((a, b) => a.kind === 'Intensité' ? -1 : b.kind === 'Intensité' ? 1 : 0);
+  }
+}
 
-// Fonction pour formater les données de sessions moyennes de l'utilisateur
-const formatUserAverageSessions = (averageSessionsData) => {
-    return averageSessionsData.sessions.map(session => ({
-        day: session.day,
-        '' : session.sessionLength
-    }));
-};
+class SessionFormatter {
+    static formatSessionData(sessionData) {
+      if (!sessionData || !sessionData.data || !sessionData.data.sessions.length) {
+        return null;
+      }
+  
+      const dayNames = {
+        0: 'D',
+        1: 'L',
+        2: 'M',
+        3: 'M',
+        4: 'J',
+        5: 'V',
+        6: 'S',
+        7: 'D',
+        8: 'L'
+      };
+  
+      return sessionData.data.sessions.map(session => ({
+        day: dayNames[session.day],
+        sessionLength: session.sessionLength
+      }));
+    }
+}
 
-// Fonction pour formater les données de performance de l'utilisateur
-const formatUserPerformance = (performanceData) => {
-    return performanceData.data.map(performance => ({
-        value: performance.value,
-        kind: performance.kind
-    }));
-};
 
-// Fonction pour formater toutes les données de l'utilisateur
-const formatUserDataFromAPI = (userDataFromAPI) => {
-    return {
-        userData: formatUserData(userDataFromAPI.USER_MAIN_DATA[0]),
-        userActivity: formatUserActivity(userDataFromAPI.USER_ACTIVITY[0]),
-        userAverageSessions: formatUserAverageSessions(userDataFromAPI.USER_AVERAGE_SESSIONS[0]),
-        userPerformance: formatUserPerformance(userDataFromAPI.USER_PERFORMANCE[0])
-    };
-};
-
-// Exemple d'utilisation
-const formattedData = formatUserDataFromAPI(dataFromAPI);
-console.log(formattedData);
+export { NutriFormatter, PerformanceFormatter, SessionFormatter };
