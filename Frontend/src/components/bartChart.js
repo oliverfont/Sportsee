@@ -19,21 +19,18 @@ const CustomBar = (props) => {
     );
 };
 
-const renderLegendIcon = (props) => {
-    const { payload } = props;
+const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip" style={{ backgroundColor: '#E60000', color: '#FFFFFF', marginTop: '-100px' }}>
+                {payload.map((entry, index) => (
+                    <p key={`data-${index}`} style={{ fontWeight: 'bold', margin: '30px 0' }}>{`${entry.value} ${entry.dataKey === 'kilogram' ? 'kg' : 'kCal'}`}</p>
+                ))}
+            </div>
+        );
+    }
 
-    return (
-        <ul className="custom-legend">
-            {payload.map((entry, index) => (
-                <li key={`item-${index}`} style={{ listStyle: 'none', display: 'inline-block', marginRight: 20 }}>
-                    <svg width={10} height={10}>
-                        <circle cx={5} cy={5} r={5} fill={entry.color} />
-                    </svg>
-                    <span style={{ marginLeft: 5 }}>{entry.value}</span>
-                </li>
-            ))}
-        </ul>
-    );
+    return null;
 };
 
 const Activity = ({ userId }) => {
@@ -82,8 +79,8 @@ const Activity = ({ userId }) => {
                         <XAxis dataKey="day" tickLine={false} dy={10} dx={-5} tickFormatter={(value, index) => index + 1} />
                         <YAxis yAxisId="right" tickLine={false} orientation="right" domain={weightDomain} axisLine={false} />
                         <YAxis yAxisId="left" hide domain={[0, 550]} />
-                        <Tooltip verticalAlign="top" align="left" label="Titre" labelStyle={{ textAlign: 'left', fontSize: 16, fontWeight: 'bold' }} />
-                        <Legend verticalAlign="top" align="right" iconType="circle" content={renderLegendIcon} />
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend verticalAlign="top" align="right" iconType="circle" />
                         <CartesianGrid vertical={false} stroke="#ccc" strokeWidth={1} strokeDasharray="3 3" />
                         <Bar dataKey="kilogram" fill="#282D30" yAxisId="right" shape={<CustomBar />} name="Poids (kg)" />
                         <Bar dataKey="calories" fill="#E60000" yAxisId="left" shape={<CustomBar />} name="Calories brulées (kCal)" />
