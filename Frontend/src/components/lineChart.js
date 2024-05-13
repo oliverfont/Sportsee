@@ -8,7 +8,7 @@ import { SessionFormatter } from '../mock/dataFormat';
 
 const AverageSession = ({ userId }) => {
   const [sessionData, setSessionData] = useState(null);
-  const [mouseX, setMouseX] = useState(null); // Position X de la souris
+  const [maskWidth, setMaskWidth] = useState('110%');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,13 +33,12 @@ const AverageSession = ({ userId }) => {
     return <div>Loading session...</div>;
   }
 
-  const handleMouseMove = (e) => {
-    setMouseX(e.nativeEvent.offsetX);
+  const handleMaskClick = (e) => {
+    const newWidth = e.nativeEvent.offsetX;
+    setMaskWidth(`${newWidth}px`);
   };
 
   const formattedData = SessionFormatter.formatSessionData(sessionData, USER_AVERAGE_SESSIONS);
-
-  const maskWidth = mouseX ? mouseX : 0;
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -54,10 +53,10 @@ const AverageSession = ({ userId }) => {
   };
 
   return (
-    <div className='line-chart' style={{ background: 'linear-gradient(to left, #b20000, #F00)', overflow: 'hidden', padding: '0 10px', borderRadius: '5px', width: '100%' }} onMouseMove={handleMouseMove}>
-      <div className="mask" style={{ background: `#b20000`, position: 'relative', top: 0, left: 0, width: '100%', height: '110%' }}>
+    <div className='line-chart' style={{ background: 'linear-gradient(to left,#e60000, #F00)', overflow: 'hidden', padding: '0 10px', borderRadius: '5px', width: '100%' }} onClick={handleMaskClick}>
+      <div className="mask" style={{ background: `#e60000`, position: 'relative', top: 0, left: 0, width: '100%', height: '110%' }}>
       <ResponsiveContainer left={-10} width="100%" height={300}>
-          <div className="mask-background" style={{ position: 'absolute', top: 0, left: 0, width: `${maskWidth}px`, height: '100%', background: `#F00`, zIndex: 0 }}></div>
+          <div className="mask-background" style={{ position: 'absolute', top: 0, left: 0, width: maskWidth, height: '100%', background: `#F00`, zIndex: 0 }}></div>
           <LineChart data={formattedData}>
             <defs>
               <linearGradient id="strokeGradient" x1="100%" y1="0%" x2="0%" y2="0%">
@@ -65,11 +64,11 @@ const AverageSession = ({ userId }) => {
                 <stop offset="40.32%" stopColor="#FFFFFF" stopOpacity={0.4} />
               </linearGradient>
             </defs>
-            <XAxis dataKey="day" axisLine={false} tickLine={false} interval={0} />            
+            <XAxis tick={{ fill: 'rgba(255, 255, 255, 0.7)' }} dataKey="day" axisLine={false} tickLine={false} interval={0} />            
             <YAxis domain={[0, 120]} hide={true} />
             <Tooltip content={<CustomTooltip />} itemStyle={{ color: '#000000', fontWeight: 'bold' }} />            
             <Line dx={-30} width={120} dot={false} type="basis" dataKey="sessionLength" curve={curveCardinal} stroke="url(#strokeGradient)" strokeWidth={2} />
-            <text width={20} height={60} x="50%" y="60" fontSize={16} textAnchor="middle" fontWeight={'bold'} fill="#FFF">Average Session Length</text>
+            <text width={20} height={60} x="50%" y="60" fontSize={16} textAnchor="middle" fontWeight={'bold'} fill="rgba(255, 255, 255, 0.7)">Durée moyenne des sessions</text>
           </LineChart>
       </ResponsiveContainer>
       </div>
