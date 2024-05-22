@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis } from 'recharts';
 import { getUserPerformance } from '../sevices/apiService';
 import { USER_PERFORMANCE } from '../mock/dataMock';
@@ -8,8 +8,6 @@ import { PerformanceFormatter } from '../mock/dataFormat';
 const Performance = ({ userId }) => {
   // State pour stocker les données
   const [performanceData, setPerformanceData] = useState(null);
-  // Référence pour accéder au conteneur du graphique
-  const chartRef = useRef(null);
 
   // Effet pour récupérer les données
   useEffect(() => {
@@ -31,32 +29,14 @@ const Performance = ({ userId }) => {
     fetchPerformanceData(); // Appel de la fonction de récupération des données
   }, [userId]); // Déclenchement de l'effet lorsque l'ID utilisateur change
 
-  // Effet pour mettre à jour la taille du graphique en cas de redimensionnement de la fenêtre
-  useEffect(() => {
-    const updateChartSize = () => {
-      if (chartRef.current) {
-        const { height } = chartRef.current.getBoundingClientRect();
-        chartRef.current.style.height = `${height}px`;
-      }
-    };
-
-    window.addEventListener('resize', updateChartSize);
-    updateChartSize();
-
-    return () => {
-      window.removeEventListener('resize', updateChartSize);
-    };
-  }, []);
-
   // Affichage d'un message de chargement si les données ne sont pas disponibles
   if (!performanceData) return <div>Loading performance...</div>;
 
-  // Formatage des données de performance pour les utiliser dans le graphique
+  // Formatage des données pour les utiliser dans le graphique
   const formattedData = PerformanceFormatter.formatPerformanceData(performanceData);
 
-  // Rendu du composant Performance
   return (
-    <div style={{ overflow: 'hidden', padding: '0 10px', borderRadius: '5px', background: '#282D30', width: '100%', height: '300px', margin: 'auto' }} ref={chartRef}>
+    <div style={{ overflow: 'hidden', padding: '0 10px', borderRadius: '5px', background: '#282D30', width: '100%', height: '300px', margin: 'auto' }}>
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={formattedData}>
           <PolarGrid radialLines={false} strokeWidth={2} />
