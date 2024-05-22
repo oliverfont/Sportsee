@@ -1,5 +1,6 @@
 .nutri {
   width: fit-content;
+  min-width: 20%;
   margin-top: 60px;
   justify-content: space-between;
   display: flex;
