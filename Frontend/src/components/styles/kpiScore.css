@@ -26,8 +26,16 @@
   }
 
   .kpi-score-text2 {
-    transform: translate(-18%, 5%);
+    transform: translate(-15%, 5%);
     width: 50px;
     display: flex;
   }
   
+  @media (max-width: 1030px) {
+    .kpi-score-text2 {
+      display: none;
+    }
+    .kpi-score-text {
+      transform: none;
+    }
+  }

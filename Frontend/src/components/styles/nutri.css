@@ -1,7 +1,7 @@
 .nutri {
   width: fit-content;
   margin-top: 60px;
-  gap: 70px;
+  justify-content: space-between;
   display: flex;
   flex-direction: column;
 }

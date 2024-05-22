@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Asside from "../components/Asside";
-import App from "../App";
 import '../App.css';
 import Nav from "../components/Nav";
 
@@ -9,8 +8,7 @@ const Home = () => {
     const [selectedUserId, setSelectedUserId] = useState(null); 
 
     const handleProfileSelect = (userId) => {
-        setSelectedUserId(userId); // Mettre à jour le profil sélectionné
-        // Enregistre l'ID du profil sélectionné dans le stockage local
+        setSelectedUserId(userId);
         localStorage.setItem('lastSelectedProfile', userId);
     };
 
@@ -26,6 +24,9 @@ const Home = () => {
                     </div>
                     <div>
                         <Link to={`/profile/18`} onClick={() => handleProfileSelect(18)}>Cecilia</Link>
+                    </div>
+                    <div>
+                        <Link to={`/profile/1`} onClick={() => handleProfileSelect(18)}>John Doe</Link>
                     </div>
                 </div>
             </div>

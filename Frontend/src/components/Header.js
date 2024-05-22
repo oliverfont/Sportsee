@@ -16,7 +16,7 @@ const Header = () => {
                 setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
                 // En cas d'erreur, utilise les données de secours du mock
-                console.error('Error fetching user data:', error);
+                console.log('Error fetching user data:', error);
                 const userDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
                 if (userDataFromMock) {
                     setUserFirstName(userDataFromMock.userInfos.firstName);

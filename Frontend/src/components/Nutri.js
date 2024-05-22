@@ -15,7 +15,7 @@ const Nutri = ({ userId }) => {
         const response = await axios.get(`${baseURL}/user/${userId}`);
         setNutriData(response.data.data.keyData);
       } catch (error) {
-        console.error('Error fetching nutri data:', error);
+        console.log('Error fetching nutri data:', error);
         const userMainDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
         if (userMainDataFromMock) {
           setNutriData(userMainDataFromMock.keyData);
@@ -30,7 +30,6 @@ const Nutri = ({ userId }) => {
 
   if (!nutriData) return <div>Loading nutri...</div>;
 
-  // Utilisation de la méthode de formatage de la classe utilitaire
   const dataWithIcons = NutriFormatter.formatNutriData(nutriData);
   
   return (
