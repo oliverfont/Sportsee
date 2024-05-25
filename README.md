@@ -22,8 +22,8 @@ ou
 
 Dans ce projet, vous trouverez deux sous-dossiers:
 
-- Front-End : Inclut des éléments visuels permettant à l'utilisateur d'interagir avec l'application.
-- Back-End : Côté serveur - Micro API -
+- Frontend : Inclut des éléments visuels permettant à l'utilisateur d'interagir avec l'application.
+- Backend : Côté serveur - Micro API -
 
 ## Backend
 
@@ -54,7 +54,7 @@ Choisissez et exécutez la ligne de commande qui vous convient :
 ou
     `yarn start`
 
-    Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé 
+Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé 
     'Would you like to run the app on another port instead?'
 
 Cette commande démarre le serveur sur le port 3001. Vous pourrez accéder à l'application en ouvrant votre navigateur et en visitant l'URL suivante : http://localhost:3001
