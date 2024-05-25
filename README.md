@@ -37,6 +37,8 @@ ou
 
 Cette commande démarre le serveur API sur le port 3000
 
+Actuellement seuls deux utilisateurs ont été simulés. Ils ont respectivement les identifiants 12 et 18.
+
 Vous pouvez vérifier l'état du serveur en ouvrant votre navigateur et en visitant les end-point de l'API qui permettent d'accéder aux différentes données utilisateur de l'application :
 
 - http://localhost:3000/user/${userId} - pour les informations générales d'un utilisateur. Ce premier endpoint inclut l'identifiant de l'utilisateur, les informations de l'utilisateur (prénom, nom et âge), le score du jour actuel (todayScore) et les données clés (calories, macronutriments, etc.).
@@ -59,8 +61,6 @@ Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé :
     'Would you like to run the app on another port instead?'
 
 Cette commande démarre le serveur sur le port 3001. Vous pourrez accéder à l'application en ouvrant votre navigateur et en visitant l'URL suivante : http://localhost:3001
-
-Actuellement seuls deux utilisateurs ont été simulés. Ils ont respectivement les identifiants 12 et 18.
 
 
 # OUTILS
