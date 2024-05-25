@@ -37,7 +37,7 @@ ou
 
 Cette commande démarre le serveur API sur le port 3000
 
-Vous pouvez vérifier l'état du serveur en ouvrant un navigateur et en visitant l'URL suivante : http://localhost:3000 et circuler sur les différents end-point de l'API pour recuillir les différentes données  de l'application :
+Vous pouvez vérifier l'état du serveur en ouvrant votre navigateur et en visitant les end-point de l'API qui permettent d'accéder aux différentes données utilisateur de l'application :
 
 - http://localhost:3000/user/${userId} - pour les informations générales d'un utilisateur. Ce premier endpoint inclut l'identifiant de l'utilisateur, les informations de l'utilisateur (prénom, nom et âge), le score du jour actuel (todayScore) et les données clés (calories, macronutriments, etc.).
 - http://localhost:3000/user/${userId}/activity - pour l'activité quotidienne d'un utilisateur avec les kilogrammes et les calories.
