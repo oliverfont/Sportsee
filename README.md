@@ -18,12 +18,14 @@ ou
     `yarn install`
 
 
-# EXÉCUTION - Démarrage du serveur Web
+# EXÉCUTION
 
 Dans ce projet, vous trouverez deux sous-dossiers:
 
 - Front-End : Inclut des éléments visuels permettant à l'utilisateur d'interagir avec l'application.
 - Back-End : Côté serveur - Micro API -
+
+## Backend
 
 Accèdez au dossier Back-End :
     `cd Backend`
@@ -35,6 +37,14 @@ ou
 
 Cette commande démarre le serveur API sur le port 3000
 
+Vous pouvez vérifier l'état du serveur en ouvrant un navigateur et en visitant l'URL suivante : http://localhost:3000 et circuler sur les différents end-point de l'API pour recuillir les différentes données  de l'application :
+    http://localhost:3000/user/${userId} - pour les informations générales d'un utilisateur. Ce premier endpoint inclut l'identifiant de l'utilisateur, les informations de l'utilisateur (prénom, nom et âge), le score du jour actuel (todayScore) et les données clés (calories, macronutriments, etc.).
+    http://localhost:3000/user/${userId}/activity - pour l'activité quotidienne d'un utilisateur avec les kilogrammes et les calories.
+    http://localhost:3000/user/${userId}/average-sessions - pour les sessions moyennes d'un utilisateur par jour. La semaine commence le lundi.
+    http://localhost:3000/user/${userId}/performance - pour la performance d'un utilisateur (énergie, endurance, etc.).
+
+## Frontend
+
 Dans un nouveau terminal, accèdez au dossier Front-End :
     `cd Frontend`
 
@@ -42,6 +52,9 @@ Choisissez et exécutez la ligne de commande qui vous convient :
     `npm start`
 ou
     `yarn start`
+
+    Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé 
+    'Would you like to run the app on another port instead?'
 
 Cette commande démarre le serveur sur le port 3001. Vous pourrez accéder à l'application en ouvrant votre navigateur et en visitant l'URL suivante : http://localhost:3001
 
