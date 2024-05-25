@@ -54,7 +54,8 @@ Choisissez et exécutez la ligne de commande qui vous convient :
 ou
     `yarn start`
 
-Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé 
+Cliquez sur la touche `y` (yes) lorsqu'il vous sera demandé :
+     
     'Would you like to run the app on another port instead?'
 
 Cette commande démarre le serveur sur le port 3001. Vous pourrez accéder à l'application en ouvrant votre navigateur et en visitant l'URL suivante : http://localhost:3001
