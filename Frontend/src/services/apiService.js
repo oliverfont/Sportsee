@@ -31,6 +31,7 @@ export const getUserMainData = async (userId) => {
         return fetchData(`user/${userId}`);
     } else {
         console.log('API is not functional. Using mock data instead.');
+        console.log(USER_MAIN_DATA);
         return USER_MAIN_DATA;
     }
 };

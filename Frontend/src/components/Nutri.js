@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getUserMainData } from '../services/apiService';
 import { NutriFormatter } from '../mock/dataFormat';
 import './styles/nutri.css';
-import { USER_MAIN_DATA } from '../mock/dataMock';
-
-const baseURL = 'http://localhost:3000';
 
 const Nutri = ({ userId }) => {
   const [nutriData, setNutriData] = useState(null);
@@ -12,26 +9,21 @@ const Nutri = ({ userId }) => {
   useEffect(() => {
     const fetchNutriData = async () => {
       try {
-        const response = await axios.get(`${baseURL}/user/${userId}`);
-        setNutriData(response.data.data.keyData);
+        const response = await getUserMainData(userId); // Récupération des données via le service API
+        setNutriData(response.data.keyData); // Mise à jour des données
       } catch (error) {
         console.log('Error fetching nutri data:', error);
-        const userMainDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
-        if (userMainDataFromMock) {
-          setNutriData(userMainDataFromMock.keyData);
-        } else {
-          setNutriData(null);
-        }
+        setNutriData(null); // Gérer l'erreur de manière appropriée
       }
     };
 
-    fetchNutriData();
+    fetchNutriData(); // Appel de la fonction de récupération des données
   }, [userId]);
 
   if (!nutriData) return <div>Loading nutri...</div>;
 
   const dataWithIcons = NutriFormatter.formatNutriData(nutriData);
-  
+
   return (
     <div className='nutri'>
       {dataWithIcons.map((item, index) => (
