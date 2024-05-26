@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserActivity } from '../sevices/apiService.js'; // Import du service pour récupérer les données utilisateur
-import { USER_ACTIVITY } from '../mock/dataMock.js'; // Import des données de mock pour une utilisation alternative
+import { getUserActivity } from '../services/apiService.js'; // Import du service pour récupérer les données utilisateur
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
 import './styles/BarChart.css'; 
 
@@ -38,34 +37,20 @@ const CustomTooltip = ({ active, payload, label }) => {
 const Activity = ({ userId }) => {
     // State pour stocker les données de l'utilisateur
     const [activityData, setActivityData] = useState(null);
-    // State pour indiquer si les données de mock doivent être utilisées
-    const [useMockData, setUseMockData] = useState(false);
 
     // Effet pour récupérer les données de l'utilisateur
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Vérification si les données de mock doivent être utilisées
-                if (!useMockData) {
-                    const response = await getUserActivity(userId); // Récupération des données via le service API
-                    setActivityData(response.data.sessions); // Mise à jour des données
-                } else {
-                    // Utilisation des données de mock en cas d'erreur ou de non-disponibilité des données API
-                    const userActivityFromMock = USER_ACTIVITY.find(user => user.userId === parseInt(userId));
-                    if (userActivityFromMock) {
-                        setActivityData(userActivityFromMock.sessions); // Mise à jour des données
-                    } else {
-                        setActivityData(null);
-                    }
-                }
+                const response = await getUserActivity(userId); // Récupération des données via le service API
+                setActivityData(response.data.sessions); // Mise à jour des données
             } catch (error) {
                 console.log('Error fetching activity data:', error);
-                setUseMockData(true); // Passage à l'utilisation des données de mock en cas d'erreur
             }
         };
 
         fetchData(); // Appel de la fonction de récupération des données
-    }, [userId, useMockData]); // Déclenchement de l'effet lorsque l'ID utilisateur ou l'indicateur d'utilisation de données de mock changent
+    }, [userId]); // Déclenchement de l'effet lorsque l'ID utilisateur change
 
     // Affichage d'un message de chargement si les données ne sont pas disponibles
     if (!activityData || !activityData.length) {

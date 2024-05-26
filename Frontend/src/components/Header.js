@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUserMainData } from '../sevices/apiService.js';
-import { USER_MAIN_DATA } from '../mock/dataMock.js';
-import './styles/Header.css';
+import { getUserMainData } from '../services/apiService.js';
 
 const Header = () => {
     const [userFirstName, setUserFirstName] = useState('');
@@ -15,14 +13,9 @@ const Header = () => {
                 const userData = await getUserMainData(userId);
                 setUserFirstName(userData.data.userInfos.firstName);
             } catch (error) {
-                // En cas d'erreur, utilise les données de secours du mock
+                // En cas d'erreur, affiche un message vide
                 console.log('Error fetching user data:', error);
-                const userDataFromMock = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
-                if (userDataFromMock) {
-                    setUserFirstName(userDataFromMock.userInfos.firstName);
-                } else {
-                    setUserFirstName('');
-                }
+                setUserFirstName('');
             }
         };
 

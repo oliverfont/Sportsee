@@ -1,38 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { ResponsiveContainer, Radar, RadarChart, PolarGrid, PolarAngleAxis } from 'recharts';
-import { getUserPerformance } from '../sevices/apiService';
-import { USER_PERFORMANCE } from '../mock/dataMock';
+import { getUserPerformance } from '../services/apiService';
 import './styles/radarChart.css';
 import { PerformanceFormatter } from '../mock/dataFormat';
 
 const Performance = ({ userId }) => {
-  // State pour stocker les données
   const [performanceData, setPerformanceData] = useState(null);
 
-  // Effet pour récupérer les données
   useEffect(() => {
     const fetchPerformanceData = async () => {
       try {
-        const userData = await getUserPerformance(userId); // Récupération des données via le service API
-        setPerformanceData(userData.data); // Mise à jour des données
+        const userData = await getUserPerformance(userId);
+        setPerformanceData(userData.data);
       } catch (error) {
         console.log('Error fetching performance data:', error);
-        const userPerformanceFromMock = USER_PERFORMANCE.find(user => user.userId === parseInt(userId));
-        if (userPerformanceFromMock) {
-          setPerformanceData({ kind: userPerformanceFromMock.kind, data: userPerformanceFromMock.data }); // Utilisation des données de mock en cas d'erreur
-        } else {
-          setPerformanceData(null);
-        }
+        setPerformanceData(null);
       }
     };
 
-    fetchPerformanceData(); // Appel de la fonction de récupération des données
-  }, [userId]); // Déclenchement de l'effet lorsque l'ID utilisateur change
+    fetchPerformanceData();
+  }, [userId]);
 
-  // Affichage d'un message de chargement si les données ne sont pas disponibles
   if (!performanceData) return <div>Loading performance...</div>;
 
-  // Formatage des données pour les utiliser dans le graphique
   const formattedData = PerformanceFormatter.formatPerformanceData(performanceData);
 
   return (
