@@ -6,54 +6,67 @@ const baseURL = 'http://localhost:3000';
 
 // Fonction générique pour effectuer les requêtes API
 const fetchData = async (endpoint) => {
-    try {
-        const response = await axios.get(`${baseURL}/${endpoint}`);
-        return response.data;
-    } catch (error) {
-        console.log(`Error fetching ${endpoint}:`, error);
-        return null;
-    }
-};
-
-// Fonction pour vérifier si l'API est fonctionnelle
-const isApiFunctional = async (userId) => {
-    try {
-        await fetchData(`user/${userId}`);
-        return true;
-    } catch (error) {
-        return false;
-    }
+  try {
+    const response = await axios.get(`${baseURL}/${endpoint}`);
+    return response.data.data;
+  } catch (error) {
+    console.log(`Error fetching ${endpoint}:`, error);
+    return null;
+  }
 };
 
 // Fonction pour récupérer les données principales de l'utilisateur
 export const getUserMainData = async (userId) => {
-    if (await isApiFunctional(userId)) {
-        return fetchData(`user/${userId}`);
-    } else {
-        console.log('API is not functional. Using mock data instead.');
-        console.log(USER_MAIN_DATA);
-        return USER_MAIN_DATA;
-    }
+  const endpoint = `user/${userId}`;
+  const data = await fetchData(endpoint);
+  
+  if (data) {
+    return { data };
+  } else {
+    console.log('API is not functional. Using mock data instead.');
+    const mockData = USER_MAIN_DATA.find(user => user.id === parseInt(userId));
+    return { data: mockData };
+  }
 };
 
 // Fonction pour récupérer les activités de l'utilisateur
 export const getUserActivity = async (userId) => {
-    const data = await fetchData(`user/${userId}/activity`);
-    return data ? data : USER_ACTIVITY;
+  const endpoint = `user/${userId}/activity`;
+  const data = await fetchData(endpoint);
+
+  if (data) {
+    return { data };
+  } else {
+    console.log('API is not functional. Using mock data instead.');
+    const mockData = USER_ACTIVITY.find(user => user.userId === parseInt(userId));
+    return { data: mockData };
+  }
 };
 
 // Fonction pour récupérer les sessions moyennes de l'utilisateur
 export const getUserAverageSessions = async (userId) => {
-    const data = await fetchData(`user/${userId}/average-sessions`);
-    return data ? data : USER_AVERAGE_SESSIONS;
+  const endpoint = `user/${userId}/average-sessions`;
+  const data = await fetchData(endpoint);
+
+  if (data) {
+    return { data };
+  } else {
+    console.log('API is not functional. Using mock data instead.');
+    const mockData = USER_AVERAGE_SESSIONS.find(user => user.userId === parseInt(userId));
+    return { data: mockData };
+  }
 };
 
 // Fonction pour récupérer les performances de l'utilisateur
 export const getUserPerformance = async (userId) => {
-    if (await isApiFunctional(userId)) {
-        return fetchData(`user/${userId}/performance`);
-    } else {
-        console.log('API is not functional. Using mock data instead.');
-        return USER_PERFORMANCE;
-    }
+  const endpoint = `user/${userId}/performance`;
+  const data = await fetchData(endpoint);
+
+  if (data) {
+    return { data };
+  } else {
+    console.log('API is not functional. Using mock data instead.');
+    const mockData = USER_PERFORMANCE.find(user => user.userId === parseInt(userId));
+    return { data: mockData };
+  }
 };
