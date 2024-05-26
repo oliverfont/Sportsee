@@ -4,6 +4,8 @@ import { LineChart, Line, XAxis, Tooltip, YAxis, ResponsiveContainer } from 'rec
 import { curveCardinal } from 'd3-shape';
 import { SessionFormatter } from '../mock/dataFormat';
 
+import './styles/LineChart.css';
+
 const AverageSession = ({ userId }) => {
   const [sessionData, setSessionData] = useState(null);
   const [maskWidth, setMaskWidth] = useState('110%');
