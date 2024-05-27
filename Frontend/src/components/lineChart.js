@@ -11,7 +11,7 @@ const AverageSession = ({ userId }) => {
   const [maskWidth, setMaskWidth] = useState('110%');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const avSessData = async () => {
       try {
         const data = await getUserAverageSessions(userId);
         setSessionData(data);
@@ -21,7 +21,7 @@ const AverageSession = ({ userId }) => {
       }
     };
 
-    fetchData();
+    avSessData();
   }, [userId]);
 
   if (!sessionData || !sessionData.data || !sessionData.data.sessions.length) {
