@@ -61,12 +61,12 @@ const App = () => {
         const mockPerformance = USER_PERFORMANCE.find(user => user.userId === parseInt(userId));
 
         // Format mock data
-        setNutriData(NutriFormatter.formatNutriData(mockMainData.keyData)); // Ensure keyData is passed to formatter
-        setActivityData(mockActivity.sessions); // Assuming this is already formatted properly
+        setNutriData(NutriFormatter.formatNutriData(mockMainData.keyData));
+        setActivityData(mockActivity.sessions);
         setAverageSessions(SessionFormatter.formatSessionData({ data: mockAverageSessions }));
         setPerformanceData(PerformanceFormatter.formatPerformanceData(mockPerformance));
         setUserName(mockMainData.userInfos.firstName);
-        setScore(mockMainData.score || mockMainData.todayScore); // Ensure score is set
+        setScore(mockMainData.score || mockMainData.todayScore);
       }
     };
 
