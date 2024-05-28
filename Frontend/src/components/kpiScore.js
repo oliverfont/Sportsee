@@ -1,26 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { getUserMainData } from '../services/apiService.js';
+import React from 'react';
 import { ResponsiveContainer, RadialBarChart, RadialBar } from 'recharts';
 import './styles/kpiScore.css';
 
-const KpiScore = ({ userId }) => {
-  const [score, setScore] = useState(null);
-
-  useEffect(() => {
-    const fetchScore = async () => {
-      try {
-        const userData = await getUserMainData(userId);
-        const userScore = userData && userData.data && userData.data.score;
-        setScore(userScore);
-      } catch (error) {
-        console.log('Error fetching user score:', error);
-        setScore(null);
-      }
-    };
-
-    fetchScore();
-  }, [userId]);
-
+const KpiScore = ({ score }) => {
   if (score === null) return <div>Loading score...</div>;
 
   const percentage = score * 100;

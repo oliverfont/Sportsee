@@ -5,16 +5,16 @@ import lipidIcon from '../assets/fat-icon.svg';
 
 class NutriFormatter {
     static formatNutriData(nutriData) {
-      if (!nutriData) return null;
-  
-      return [
-        { label: 'Calories', value: `${nutriData.calorieCount}kCal`, icon: calorieIcon },
-        { label: 'Protéines', value: `${nutriData.proteinCount}g`, icon: proteinIcon },
-        { label: 'Glucides', value: `${nutriData.carbohydrateCount}g`, icon: carbohydrateIcon },
-        { label: 'Lipides', value: `${nutriData.lipidCount}g`, icon: lipidIcon }
-      ];
+        if (!nutriData) return null;
+
+        return [
+            { label: 'Calories', value: `${nutriData.calorieCount}kCal`, icon: calorieIcon },
+            { label: 'Protéines', value: `${nutriData.proteinCount}g`, icon: proteinIcon },
+            { label: 'Glucides', value: `${nutriData.carbohydrateCount}g`, icon: carbohydrateIcon },
+            { label: 'Lipides', value: `${nutriData.lipidCount}g`, icon: lipidIcon }
+        ];
     }
-  }
+}
 
 class PerformanceFormatter {
   static formatPerformanceData(performanceData) {

@@ -1,39 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { getUserAverageSessions } from '../services/apiService';
+import React, { useState } from 'react';
 import { LineChart, Line, XAxis, Tooltip, YAxis, ResponsiveContainer } from 'recharts';
 import { curveCardinal } from 'd3-shape';
-import { SessionFormatter } from '../mock/dataFormat';
-
 import './styles/LineChart.css';
 
-const AverageSession = ({ userId }) => {
-  const [sessionData, setSessionData] = useState(null);
+const AverageSession = ({ sessionData }) => {
   const [maskWidth, setMaskWidth] = useState('110%');
-
-  useEffect(() => {
-    const avSessData = async () => {
-      try {
-        const data = await getUserAverageSessions(userId);
-        setSessionData(data);
-      } catch (error) {
-        console.log('Error fetching average session data:', error);
-        setSessionData(null);
-      }
-    };
-
-    avSessData();
-  }, [userId]);
-
-  if (!sessionData || !sessionData.data || !sessionData.data.sessions.length) {
-    return <div>Loading session...</div>;
-  }
 
   const handleMaskClick = (e) => {
     const newWidth = e.nativeEvent.offsetX;
     setMaskWidth(`${newWidth}px`);
   };
-
-  const formattedData = SessionFormatter.formatSessionData(sessionData);
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -51,7 +27,7 @@ const AverageSession = ({ userId }) => {
       <div className="mask" style={{ background: `#e60000`, position: 'relative', top: 0, left: 0, width: '100%', height: '110%' }}>
         <ResponsiveContainer left={-10} width="100%" height={300}>
           <div className="mask-background" style={{ position: 'absolute', top: 0, left: 0, width: maskWidth, height: '100%', background: `#F00`, zIndex: 0 }}></div>
-          <LineChart data={formattedData}>
+          <LineChart data={sessionData}>
             <defs>
               <linearGradient id="strokeGradient" x1="100%" y1="0%" x2="0%" y2="0%">
                 <stop offset="0%" stopColor="#FFFFFF" stopOpacity={1} />
