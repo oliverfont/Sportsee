@@ -44,12 +44,12 @@ const App = () => {
         userPerformance = userPerformance.data.data;
 
         // Format data
-        setNutriData(NutriFormatter.formatNutriData(userMainData.keyData)); // Ensure keyData is passed to formatter
-        setActivityData(userActivity.sessions); // Assuming this is already formatted properly
+        setNutriData(NutriFormatter.formatNutriData(userMainData.keyData));
+        setActivityData(userActivity.sessions);
         setAverageSessions(SessionFormatter.formatSessionData({ data: userAverageSessions }));
         setPerformanceData(PerformanceFormatter.formatPerformanceData(userPerformance));
         setUserName(userMainData.userInfos.firstName);
-        setScore(userMainData.score || userMainData.todayScore); // Ensure score is set
+        setScore(userMainData.score || userMainData.todayScore);
 
       } catch (error) {
         console.log('Error fetching data from API:', error);
